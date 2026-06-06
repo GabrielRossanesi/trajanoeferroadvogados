@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 370 90" width="100%" height="100%">
+  <!-- Monograma TF à esquerda -->
+  <g transform="translate(5, 5)">
+    <!-- Linha vertical esquerda com diamante -->
+    <line x1="12" y1="15" x2="12" y2="65" stroke="#94a3b8" stroke-width="0.75" />
+    <polygon points="12,37 15,40 12,43 9,40" fill="#94a3b8" />
+
+    <!-- Iniciais -->
+    <text x="21" y="52" font-family="var(--font-serif), 'Playfair Display', Georgia, serif" font-size="38" fill="#ffffff" font-weight="400">T</text>
+    <text x="41" y="58" font-family="var(--font-serif), 'Playfair Display', Georgia, serif" font-size="30" fill="#ffffff" font-weight="400">F</text>
+
+    <!-- Linha vertical direita com diamante -->
+    <line x1="68" y1="15" x2="68" y2="65" stroke="#94a3b8" stroke-width="0.75" />
+    <polygon points="68,37 71,40 68,43 65,40" fill="#94a3b8" />
+  </g>
+
+  <!-- Marca Nominativa à direita -->
+  <g transform="translate(5, 5)">
+    <!-- TRAJANO & FERRO -->
+    <text x="215" y="36" font-family="var(--font-serif), 'Playfair Display', Georgia, serif" font-size="22" font-weight="500" letter-spacing="3" text-anchor="middle" fill="#ffffff">TRAJANO &amp; FERRO</text>
+    
+    <!-- Linha e Diamante Esquerdos -->
+    <line x1="90" y1="56" x2="127" y2="56" stroke="#94a3b8" stroke-width="0.75" />
+    <polygon points="135,53 138,56 135,59 132,56" fill="#94a3b8" />
+
+    <!-- ADVOGADOS -->
+    <text x="215" y="59" font-family="var(--font-serif), 'Playfair Display', Georgia, serif" font-size="9" font-weight="400" letter-spacing="6" text-anchor="middle" fill="#94a3b8">ADVOGADOS</text>
+
+    <!-- Linha e Diamante Direitos -->
+    <polygon points="295,53 298,56 295,59 292,56" fill="#94a3b8" />
+    <line x1="303" y1="56" x2="340" y2="56" stroke="#94a3b8" stroke-width="0.75" />
+  </g>
+</svg>
