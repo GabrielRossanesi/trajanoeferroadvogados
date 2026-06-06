@@ -1,26 +1,319 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #060b16; /* Deep dark navy */
+  --foreground: #f8fafc; /* Crisp white-gray text */
+  --card-bg: rgba(11, 23, 42, 0.6);
+  --border-color: rgba(226, 232, 240, 0.08);
+  
+  --font-serif: var(--font-playfair);
+  --font-sans: var(--font-inter);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
+  
+  /* Custom branding colors */
+  --color-brand-blue: #17186a;
+  --color-navy-950: #040810;
+  --color-navy-900: #060b16;
+  --color-navy-800: #08111f;
+  --color-navy-700: #101c30;
+  --color-navy-600: #182a46;
+  --color-royal-500: #2563eb;
+  --color-royal-400: #3b82f6;
+  --color-royal-300: #60a5fa;
+  --color-off-white: #f8f7f2;
+  --color-white: #ffffff;
+  --color-silver-100: #f1f5f9;
+  --color-silver-200: #e2e8f0;
+  --color-silver-300: #cbd5e1;
+  --color-silver-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Offset for floating sticky header */
+}
+@media (min-width: 768px) {
+  html {
+    scroll-padding-top: 88px; /* Offset for taller header on desktop */
   }
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  overflow-x: hidden;
 }
+
+/* Custom Utilities for Premium Look */
+.glass-panel {
+  background: rgba(6, 11, 22, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.08);
+}
+
+.glass-card {
+  background: rgba(15, 30, 54, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(226, 232, 240, 0.06);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  background: rgba(27, 50, 82, 0.35);
+  border-color: rgba(96, 165, 250, 0.2);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(59, 130, 246, 0.05);
+  transform: translateY(-4px);
+}
+
+/* Light Card styles for off-white sections */
+.light-card {
+  background: #ffffff;
+  border: 1px solid rgba(23, 24, 106, 0.06);
+  box-shadow: 0 4px 20px -2px rgba(23, 24, 106, 0.03), 0 2px 8px -1px rgba(23, 24, 106, 0.02);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.light-card:hover {
+  border-color: rgba(23, 24, 106, 0.2);
+  box-shadow: 0 12px 30px -4px rgba(23, 24, 106, 0.08), 0 4px 12px -2px rgba(23, 24, 106, 0.04);
+  transform: translateY(-4px);
+}
+
+/* Light Card Highlight for practice area focus */
+.light-card-highlight {
+  background: #ffffff;
+  border: 1px solid rgba(23, 24, 106, 0.15);
+  box-shadow: 0 10px 30px -4px rgba(23, 24, 106, 0.06), 0 4px 12px -2px rgba(23, 24, 106, 0.04);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.light-card-highlight:hover {
+  border-color: rgba(23, 24, 106, 0.35);
+  box-shadow: 0 20px 40px -6px rgba(23, 24, 106, 0.12), 0 8px 20px -4px rgba(23, 24, 106, 0.08);
+  transform: translateY(-4px);
+}
+
+.highlight-card {
+  background: linear-gradient(135deg, rgba(15, 30, 54, 0.8) 0%, rgba(27, 50, 82, 0.6) 100%);
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.6), 0 0 25px rgba(59, 130, 246, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.highlight-card:hover {
+  border-color: rgba(96, 165, 250, 0.4);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7), 0 0 35px rgba(59, 130, 246, 0.15);
+  transform: translateY(-4px);
+}
+
+/* Linear fine accents */
+.fine-line {
+  position: relative;
+}
+.fine-line::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(226, 232, 240, 0.1), transparent);
+}
+
+/* Premium Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #040810;
+}
+::-webkit-scrollbar-thumb {
+  background: #08111f;
+  border-radius: 4px;
+  border: 2px solid #040810;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #101c30;
+}
+
+/* Reveal Animation Utilities */
+.reveal-text {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animações e Estilos Clássicos Jurídicos */
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-draw {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawLine 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Divisores Clássicos */
+.classic-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 320px;
+  margin: 3rem auto;
+}
+.classic-divider::before,
+.classic-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(23, 24, 106, 0.1);
+}
+.classic-divider::before {
+  margin-right: 1.25rem;
+}
+.classic-divider::after {
+  margin-left: 1.25rem;
+}
+.classic-divider-diamond {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background-color: var(--color-brand-blue, #17186a);
+  transform: rotate(45deg);
+  opacity: 0.7;
+}
+
+/* Divisor Clássico Escuro (para seções escuras) */
+.classic-divider-dark {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 320px;
+  margin: 3rem auto;
+}
+.classic-divider-dark::before,
+.classic-divider-dark::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.classic-divider-dark::before {
+  margin-right: 1.25rem;
+}
+.classic-divider-dark::after {
+  margin-left: 1.25rem;
+}
+.classic-divider-dark-diamond {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background-color: #cbd5e1;
+  transform: rotate(45deg);
+  opacity: 0.6;
+}
+
+/* Molduras Clássicas */
+.double-border-frame {
+  position: relative;
+  border: 1px solid rgba(23, 24, 106, 0.08);
+}
+.double-border-frame::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border: 1px solid rgba(23, 24, 106, 0.03);
+  pointer-events: none;
+}
+
+.double-border-frame-dark {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.double-border-frame-dark::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  pointer-events: none;
+}
+
+/* Cards Premium Reestruturados */
+.premium-card {
+  background: #ffffff;
+  border: 1px solid rgba(23, 24, 106, 0.05);
+  border-radius: 4px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.01);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+.premium-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: transparent;
+  transition: background-color 0.3s;
+}
+.premium-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(23, 24, 106, 0.15);
+  box-shadow: 0 16px 36px rgba(23, 24, 106, 0.04);
+}
+.premium-card:hover::after {
+  background: var(--color-brand-blue, #17186a);
+}
+
+.premium-card-accent {
+  background: #ffffff;
+  border: 1px solid rgba(23, 24, 106, 0.12);
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgba(23, 24, 106, 0.03);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+.premium-card-accent::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--color-brand-blue, #17186a);
+  transition: height 0.3s;
+}
+.premium-card-accent:hover {
+  transform: translateY(-4px);
+  border-color: rgba(23, 24, 106, 0.3);
+  box-shadow: 0 20px 40px rgba(23, 24, 106, 0.08);
+}
+
+.diagonal-lines {
+  background-image: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.012) 0px, rgba(255, 255, 255, 0.012) 1px, transparent 1px, transparent 12px);
+}
+
+

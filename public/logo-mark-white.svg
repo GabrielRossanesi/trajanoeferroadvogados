@@ -1,0 +1,13 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 75" width="100%" height="100%">
+  <!-- Linha vertical esquerda com diamante -->
+  <line x1="12" y1="12" x2="12" y2="62" stroke="#94a3b8" stroke-width="0.75" />
+  <polygon points="12,34 15,37 12,40 9,37" fill="#94a3b8" />
+
+  <!-- Iniciais -->
+  <text x="21" y="49" font-family="var(--font-serif), 'Playfair Display', Georgia, serif" font-size="38" fill="#ffffff" font-weight="400">T</text>
+  <text x="41" y="55" font-family="var(--font-serif), 'Playfair Display', Georgia, serif" font-size="30" fill="#ffffff" font-weight="400">F</text>
+
+  <!-- Linha vertical direita com diamante -->
+  <line x1="68" y1="12" x2="68" y2="62" stroke="#94a3b8" stroke-width="0.75" />
+  <polygon points="68,34 71,37 68,40 65,37" fill="#94a3b8" />
+</svg>
