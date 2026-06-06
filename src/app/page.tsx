@@ -427,15 +427,15 @@ Descrição do caso: ${formState.description || "Não informada."}`;
               transition={{ duration: 0.8, delay: 0.2 }}
               className="lg:col-span-5 flex justify-center lg:justify-end"
             >
-              <div className="relative w-full max-w-[420px] aspect-[4/5] md:aspect-auto md:h-[450px] rounded overflow-hidden shadow-2xl double-border-frame-dark bg-navy-950/40">
+              <div className="hero-image-frame relative w-full max-w-[420px] aspect-[4/5] md:aspect-auto md:h-[450px] overflow-hidden">
                 <Image
                   src={assetPath("/hero-mockup.webp")}
                   alt="Conceito Trajano & Ferro Advogados"
                   fill
-                  className="object-cover transition-transform duration-750 hover:scale-105"
+                  className="z-0 object-cover transition-transform duration-750 hover:scale-105"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#060b16]/60 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute inset-0 z-[1] bg-gradient-to-t from-[#060b16]/60 via-transparent to-transparent pointer-events-none" />
               </div>
             </framerMotion.div>
           </div>
