@@ -612,7 +612,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                       Dra. Cláudia Trajano
                     </h3>
                     <p className="text-xs font-semibold text-royal-600 uppercase tracking-wider">
-                      Sócia-Fundadora | OAB/SP 345.678
+                      Sócia-Fundadora | OAB/SP nº 249293
                     </p>
                   </div>
                   <p className="text-xs lg:text-sm text-[#374151] font-light leading-relaxed">
@@ -672,7 +672,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                       Dr. Paulo Ferro
                     </h3>
                     <p className="text-xs font-semibold text-royal-600 uppercase tracking-wider">
-                      Sócio-Fundador | OAB/SP 412.345
+                      Sócio-Fundador | OAB/SP nº 196899
                     </p>
                   </div>
                   <p className="text-xs lg:text-sm text-[#374151] font-light leading-relaxed">
