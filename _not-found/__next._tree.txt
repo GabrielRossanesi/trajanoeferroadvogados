@@ -1,2 +1,2 @@
-:HL["/trajanoeferroadvogados/_next/static/chunks/12svwgergaack.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"stXGUyCVptEylY96-GjOR"}
+:HL["/trajanoeferroadvogados/_next/static/chunks/20mbbu99ovy8f.css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"mZq5js8GBZlePysjpJurP"}
