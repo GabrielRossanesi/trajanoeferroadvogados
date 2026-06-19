@@ -16,14 +16,14 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Trajano e Ferro Advogados | Advocacia Estratégica e Consultiva",
-  description: "Atuação jurídica de excelência nas áreas trabalhista, cível e administrativa. Atendimento personalizado, ética e compromisso com os seus direitos.",
+  description: "Atuação jurídica de excelência nas áreas trabalhista, civel e processo ético disciplinar. Atendimento personalizado, ética e compromisso com os seus direitos.",
   keywords: [
     "Trajano e Ferro",
     "Trajano e Ferro Advogados",
     "Advogado Trabalhista",
     "Direito do Trabalho",
-    "Direito Cível",
-    "Direito Administrativo",
+    "Direito Civel",
+    "Processo Ético Disciplinar",
     "Defesa do Empregado",
     "Advocacia Estratégica",
     "São Paulo",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Trajano e Ferro Advogados" }],
   openGraph: {
     title: "Trajano e Ferro Advogados | Advocacia Estratégica",
-    description: "Atuação de excelência nas áreas trabalhista, cível e administrativa com atendimento personalizado e foco em soluções eficientes.",
+    description: "Atuação de excelência nas áreas trabalhista, civel e processo ético disciplinar com atendimento personalizado e foco em soluções eficientes.",
     type: "website",
     locale: "pt_BR",
   },

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { motion as framerMotion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
-import { Users } from "lucide-react";
+import { Users, HeartHandshake, Scale } from "lucide-react";
 
 type StatItem =
   | { kind: "number"; value: number; suffix: string; label: string }
@@ -12,9 +12,9 @@ type StatItem =
 // Easily editable stats configuration
 // Change values here to update the metrics on the website.
 export const STATS_DATA: StatItem[] = [
-  { kind: "number", value: 8, suffix: "+", label: "Anos de Experiência" },
-  { kind: "number", value: 300, suffix: "+", label: "Clientes Atendidos" },
-  { kind: "number", value: 4, suffix: "", label: "Áreas de Atuação" },
+  { kind: "number", value: 20, suffix: "+", label: "Anos de Experiência" },
+  { kind: "icon", icon: HeartHandshake, label: "Atendimento Personalizado" },
+  { kind: "icon", icon: Scale, label: "Áreas de Atuação" },
   { kind: "icon", icon: Users, label: "Advogados Especializados" }
 ];
 

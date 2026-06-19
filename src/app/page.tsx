@@ -135,11 +135,27 @@ export default function Home() {
 
   // Update form area when clicking a CTA
   const handleSelectArea = (areaName: string) => {
-    setFormState((prev) => ({ ...prev, area: areaName }));
+    let mappedArea = areaName;
+    if (areaName === "Direito Cível" || areaName === "Direito Civel") {
+      mappedArea = "Direito Civel";
+    } else if (areaName === "Direito Administrativo" || areaName === "Processo Ético Disciplinar") {
+      mappedArea = "Processo Ético Disciplinar";
+    } else if (areaName === "Geral") {
+      mappedArea = "";
+    }
+    
+    setFormState((prev) => ({ ...prev, area: mappedArea }));
     const contactSection = document.getElementById("contato");
     if (contactSection) {
       contactSection.scrollIntoView({ behavior: "smooth" });
     }
+  };
+
+  // Direct WhatsApp contact helper
+  const handleWhatsAppDirect = (messageText: string) => {
+    const encodedMessage = encodeURIComponent(messageText);
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
   };
 
   // Form input change handlers
@@ -225,7 +241,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
               <div className="hidden md:block relative h-16 w-72">
                 <Image
                   src={assetPath("/logo-full-white.svg")}
-                  alt="Trajano & Ferro Advogados"
+                  alt="Trajano e Ferro Advogados"
                   fill
                   className="object-contain object-left transition-transform duration-300 group-hover:scale-[1.01]"
                   priority
@@ -235,7 +251,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
               <div className="block md:hidden relative h-12 w-14">
                 <Image
                   src={assetPath("/logo-mark-white.svg")}
-                  alt="Trajano & Ferro"
+                  alt="Trajano e Ferro"
                   fill
                   className="object-contain object-left"
                   priority
@@ -392,11 +408,10 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-silver-200 to-royal-300 underline decoration-royal-400/50 decoration-2 underline-offset-8">
                     segurança e excelência
                   </span>
-                  .
                 </h1>
 
                 <p className="text-lg sm:text-xl text-silver-300 max-w-2xl font-light leading-relaxed">
-                  Atuação jurídica consultiva e contenciosa nas áreas trabalhista, cível e administrativa, com atendimento personalizado e foco em soluções eficientes.
+                  Atuação jurídica consultiva e contenciosa nas áreas trabalhista, cível e administrativa (processo ético disciplinar), com atendimento personalizado e foco em soluções eficientes.
                 </p>
               </div>
 
@@ -430,7 +445,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
               <div className="hero-image-frame relative w-full max-w-[420px] aspect-[4/5] md:aspect-auto md:h-[450px] overflow-hidden">
                 <Image
                   src={assetPath("/hero-mockup.webp")}
-                  alt="Conceito Trajano & Ferro Advogados"
+                  alt="Conceito Trajano e Ferro Advogados"
                   fill
                   className="z-0 object-cover transition-transform duration-750 hover:scale-105"
                   loading="lazy"
@@ -486,12 +501,12 @@ Descrição do caso: ${formState.description || "Não informada."}`;
               <div className="space-y-2">
                 <span className="text-xs font-bold tracking-[0.25em] text-royal-300 uppercase block">O Escritório</span>
                 <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white tracking-tight">
-                  {"Sobre a Trajano e Ferro Advogados"}
+                  {"Sobre o Trajano e Ferro Advogados"}
                 </h2>
               </div>
 
               <p className="text-base sm:text-lg text-silver-200 font-light leading-relaxed">
-                A Trajano e Ferro Advogados atua com compromisso técnico, ética e proximidade no atendimento. O escritório oferece soluções jurídicas voltadas à prevenção, defesa e orientação de seus clientes, sempre com análise cuidadosa de cada caso e comunicação clara durante todo o processo.
+                O Trajano e Ferro Advogados atua com compromisso técnico, ética e proximidade no atendimento. O escritório oferece soluções jurídicas voltadas à prevenção, defesa e orientação de seus clientes, sempre com análise cuidadosa de cada caso e comunicação clara durante todo o processo.
               </p>
 
               <p className="text-sm text-silver-400 font-light leading-relaxed">
@@ -519,7 +534,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
             >
               <Image
                 src={assetPath("/about-office.webp")}
-                alt="Escritório Trajano & Ferro Advogados"
+                alt="Escritório Trajano e Ferro Advogados"
                 fill
                 className="object-cover transition-transform duration-750 hover:scale-105"
                 loading="lazy"
@@ -555,9 +570,9 @@ Descrição do caso: ${formState.description || "Não informada."}`;
             transition={{ duration: 0.6 }}
             className="text-center max-w-3xl mx-auto space-y-4 mb-16"
           >
-            <span className="text-xs font-bold tracking-[0.25em] text-royal-600 uppercase block">Corpo Jurídico</span>
+            <span className="text-xs font-bold tracking-[0.25em] text-royal-600 uppercase block">Sócios Fundadores</span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0d1a3a] tracking-tight">
-              Profissionais à frente da Trajano & Ferro Advogados
+              Corpo Jurídico
             </h2>
             <p className="text-[#374151] font-light text-sm sm:text-base">
               Experiência técnica, atuação ética e compromisso com a defesa estratégica de seus direitos.
@@ -616,22 +631,13 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                     </p>
                   </div>
                   <p className="text-xs lg:text-sm text-[#374151] font-light leading-relaxed">
-                    Especialista em Direito Trabalhista com mais de 10 anos de atuação estratégica na defesa de trabalhadores e assessoria preventiva. Comprometida com a transparência processual e a obtenção de soluções justas.
+                    Especialista em Direito Cível e Administrativo, com sólida experiência em disputas contratuais, planos de saúde, responsabilidade civil e pareceres de conformidade para profissionais da saúde.
                   </p>
                 </div>
 
-                <div className="space-y-4 pt-4 border-t border-gray-100">
-                  <div>
-                    <h4 className="text-[10px] lg:text-xs font-bold text-[#0d1a3a] uppercase tracking-wider mb-2">Áreas de Foco</h4>
-                    <div className="flex flex-wrap gap-1.5">
-                      <span className="text-[9px] lg:text-[10px] bg-royal-50 text-royal-700 px-2 py-0.5 rounded font-medium border border-royal-100">Direito do Trabalho</span>
-                      <span className="text-[9px] lg:text-[10px] bg-royal-50 text-royal-700 px-2 py-0.5 rounded font-medium border border-royal-100">Rescisões</span>
-                      <span className="text-[9px] lg:text-[10px] bg-royal-50 text-royal-700 px-2 py-0.5 rounded font-medium border border-royal-100">Verbas Trabalhistas</span>
-                    </div>
-                  </div>
-
+                <div className="pt-4 border-t border-gray-100">
                   <button
-                    onClick={() => handleSelectArea("Direito Trabalhista")}
+                    onClick={() => handleWhatsAppDirect("Olá, Dra. Cláudia. Vim pelo site da Trajano e Ferro Advogados e gostaria de agendar uma consulta.")}
                     className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded text-xs font-semibold text-white bg-[#17186a] hover:bg-blue-800 transition-all cursor-pointer active:scale-98"
                   >
                     <MessageSquare size={13} />
@@ -676,22 +682,13 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                     </p>
                   </div>
                   <p className="text-xs lg:text-sm text-[#374151] font-light leading-relaxed">
-                    Especialista em Direito Cível e Administrativo, com sólida experiência em disputas contratuais, planos de saúde, responsabilidade civil e pareceres de conformidade para profissionais da saúde.
+                    Especialista em Direito Trabalhista com mais de 10 anos de atuação estratégica na defesa de trabalhadores e assessoria preventiva. Comprometido com a transparência processual e a obtenção de soluções justas.
                   </p>
                 </div>
 
-                <div className="space-y-4 pt-4 border-t border-gray-100">
-                  <div>
-                    <h4 className="text-[10px] lg:text-xs font-bold text-[#0d1a3a] uppercase tracking-wider mb-2">Áreas de Foco</h4>
-                    <div className="flex flex-wrap gap-1.5">
-                      <span className="text-[9px] lg:text-[10px] bg-royal-50 text-royal-700 px-2 py-0.5 rounded font-medium border border-royal-100">Direito Cível</span>
-                      <span className="text-[9px] lg:text-[10px] bg-royal-50 text-royal-700 px-2 py-0.5 rounded font-medium border border-royal-100">Planos de Saúde</span>
-                      <span className="text-[9px] lg:text-[10px] bg-royal-50 text-royal-700 px-2 py-0.5 rounded font-medium border border-royal-100">Direito Administrativo</span>
-                    </div>
-                  </div>
-
+                <div className="pt-4 border-t border-gray-100">
                   <button
-                    onClick={() => handleSelectArea("Direito Cível")}
+                    onClick={() => handleWhatsAppDirect("Olá, Dr. Paulo. Vim pelo site da Trajano e Ferro Advogados e gostaria de agendar uma consulta.")}
                     className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded text-xs font-semibold text-white bg-[#17186a] hover:bg-blue-800 transition-all cursor-pointer active:scale-98"
                   >
                     <MessageSquare size={13} />
@@ -763,7 +760,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                 
                 <div className="space-y-5 text-left">
                   <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-royal-500/10 text-[9px] font-extrabold uppercase tracking-widest text-royal-600">
-                    Atuação Principal (Empregados)
+                    Atuação Principal
                   </div>
                   
                   <h3 className="font-serif text-2xl font-bold text-[#0d1a3a] tracking-wide">
@@ -797,7 +794,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                 <div className="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center">
                   <span className="text-[11px] text-[#4b5563] font-light italic">Foco em consolidar seus direitos laborais</span>
                   <button
-                    onClick={() => handleSelectArea("Direito Trabalhista")}
+                    onClick={() => handleWhatsAppDirect("Olá! Vim pelo site da Trajano e Ferro Advogados e gostaria de falar com um especialista em Direito Trabalhista.")}
                     className="flex items-center gap-1 text-xs font-bold text-royal-600 hover:text-royal-700 transition-colors cursor-pointer"
                   >
                     <span>Consultar esta área</span>
@@ -807,7 +804,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
               </div>
             </framerMotion.div>
 
-            {/* 2. DIREITO CÍVEL */}
+            {/* 2. DIREITO CIVEL */}
             <framerMotion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -822,7 +819,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   </div>
                   
                   <h3 className="font-serif text-xl font-bold text-[#0d1a3a] tracking-wide">
-                    Direito Cível
+                    Direito Civel
                   </h3>
                   
                   <p className="text-sm text-[#374151] leading-relaxed font-light">
@@ -833,7 +830,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                 <div className="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center">
                   <span className="text-xs text-[#4b5563] font-light">Planos de saúde e indenizações</span>
                   <button
-                    onClick={() => handleSelectArea("Direito Cível")}
+                    onClick={() => handleWhatsAppDirect("Olá! Vim pelo site da Trajano e Ferro Advogados e gostaria de falar com um especialista em Direito Civel.")}
                     className="flex items-center gap-1 text-xs font-bold text-royal-600 hover:text-royal-700 transition-colors cursor-pointer"
                   >
                     <span>Consultar</span>
@@ -843,7 +840,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
               </div>
             </framerMotion.div>
 
-            {/* 3. DIREITO ADMINISTRATIVO */}
+            {/* 3. PROCESSO ÉTICO DISCIPLINAR */}
             <framerMotion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -858,18 +855,18 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   </div>
                   
                   <h3 className="font-serif text-xl font-bold text-[#0d1a3a] tracking-wide">
-                    Direito Administrativo
+                    Processo Ético Disciplinar
                   </h3>
                   
                   <p className="text-sm text-[#374151] leading-relaxed font-light">
-                    Elaboração de pareceres e defesa administrativa para profissionais da saúde, com análise técnica, orientação jurídica e acompanhamento estratégico em órgãos ou conselhos.
+                    Elaboração de pareceres e defesa administrativa para profissionais da saúde, com análise técnica, orientação jurídica e acompanhamento estratégico em conselhos de classe.
                   </p>
                 </div>
 
                 <div className="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center">
                   <span className="text-xs text-[#4b5563] font-light">Pareceres e acompanhamento estratégico</span>
                   <button
-                    onClick={() => handleSelectArea("Direito Administrativo")}
+                    onClick={() => handleWhatsAppDirect("Olá! Vim pelo site da Trajano e Ferro Advogados e gostaria de falar com um especialista em Processo Ético Disciplinar.")}
                     className="flex items-center gap-1 text-xs font-bold text-royal-600 hover:text-royal-700 transition-colors cursor-pointer"
                   >
                     <span>Consultar</span>
@@ -905,7 +902,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                 <div className="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center">
                   <span className="text-xs text-[#4b5563] font-light">Redução técnica de riscos e contratos</span>
                   <button
-                    onClick={() => handleSelectArea("Consultivo Jurídico")}
+                    onClick={() => handleWhatsAppDirect("Olá! Vim pelo site da Trajano e Ferro Advogados e gostaria de falar com um especialista em Consultivo Jurídico.")}
                     className="flex items-center gap-1 text-xs font-bold text-royal-600 hover:text-royal-700 transition-colors cursor-pointer"
                   >
                     <span>Consultar</span>
@@ -936,7 +933,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
 
           <div className="pt-2 flex justify-center">
             <button
-              onClick={() => handleSelectArea("Direito Trabalhista")}
+              onClick={() => handleWhatsAppDirect("Olá! Vim pelo site da Trajano e Ferro Advogados e gostaria de falar com um especialista em Direito Trabalhista.")}
               className="flex items-center gap-3 px-8 py-3.5 rounded text-sm font-semibold text-white bg-[#17186a] hover:bg-blue-800 transition-all duration-300 shadow-xl shadow-brand-blue/20 cursor-pointer border border-white/10 hover:border-white/20 active:scale-95"
             >
               <MessageSquare size={16} />
@@ -980,11 +977,11 @@ Descrição do caso: ${formState.description || "Não informada."}`;
               <div className="space-y-2">
                 <span className="text-xs font-bold tracking-[0.25em] text-royal-300 uppercase block">Diferenciais</span>
                 <h2 className="font-serif text-3xl font-bold text-white tracking-tight leading-tight">
-                  {"Por que escolher a Trajano & Ferro?"}
+                  {"Por que escolher a Trajano e Ferro?"}
                 </h2>
               </div>
               <p className="text-sm text-silver-300 font-light leading-relaxed">
-                Estruturamos nosso escritório sob os pilares da seriedade e do foco no cliente, organizando nossos fluxos de atendimento para oferecer uma experiência ética e esclarecedora.
+                Estruturamos nosso escritório sobre os pilares da seriedade e do foco no cliente, organizando nossos fluxos de atendimento para oferecer uma experiência ética e esclarecedora.
               </p>
               
               <div className="classic-divider-dark !mx-0">
@@ -1029,7 +1026,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                 <div className="space-y-1">
                   <h3 className="text-sm font-bold text-white tracking-wide">Atuação consultiva e contenciosa</h3>
                   <p className="text-xs text-silver-400 font-light leading-relaxed">
-                    Auxílio preventivo para evitar litígios desnecessários, além de defesa forte no judiciário.
+                    Auxílio preventivo para evitar litígios desnecessários, além de defesa no judiciário.
                   </p>
                 </div>
               </div>
@@ -1040,7 +1037,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                 <div className="space-y-1">
                   <h3 className="text-sm font-bold text-white tracking-wide">Comunicação objetiva com o cliente</h3>
                   <p className="text-xs text-silver-400 font-light leading-relaxed">
-                    Acompanhamento direto e relatórios simples. Sem jargões técnicos excessivos.
+                    Acompanhamento direto e relatórios periódicos. Sem jargões técnicos excessivos.
                   </p>
                 </div>
               </div>
@@ -1051,7 +1048,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                 <div className="space-y-1">
                   <h3 className="text-sm font-bold text-white tracking-wide">Experiência especializada</h3>
                   <p className="text-xs text-silver-400 font-light leading-relaxed">
-                    Foco qualificado nas esferas Trabalhista (para empresas e empregados), Cível (planos de saúde, indenizações) e Administrativa (defesa técnica de profissionais da saúde).
+                    Foco qualificado nas esferas Trabalhista (para empresas e empregados), Civel (planos de saúde, indenizações) e Processo Ético Disciplinar (defesa técnica de profissionais da saúde).
                   </p>
                 </div>
               </div>
@@ -1147,7 +1144,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   {"C"}
                 </div>
                 <div>
-                  <h4 className="text-xs font-semibold text-[#0d1a3a]">{"Cliente – Direito Cível"}</h4>
+                  <h4 className="text-xs font-semibold text-[#0d1a3a]">{"Cliente – Direito Civel"}</h4>
                   <p className="text-[10px] text-gray-500 font-light mt-0.5">{"Avaliação Verificada"}</p>
                 </div>
               </div>
@@ -1174,7 +1171,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   {"A"}
                 </div>
                 <div>
-                  <h4 className="text-xs font-semibold text-[#0d1a3a]">{"Cliente – Direito Administrativo"}</h4>
+                  <h4 className="text-xs font-semibold text-[#0d1a3a]">{"Cliente – Processo Ético Disciplinar"}</h4>
                   <p className="text-[10px] text-gray-500 font-light mt-0.5">{"Avaliação Verificada"}</p>
                 </div>
               </div>
@@ -1212,7 +1209,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                 <div className="flex items-center gap-4 mt-8 pt-4 border-t border-gray-100">
                   <div className="w-9 h-9 rounded-full bg-royal-500/10 border border-royal-400/20 flex items-center justify-center text-royal-600 font-serif font-bold text-sm">{"C"}</div>
                   <div>
-                    <h4 className="text-xs font-semibold text-[#0d1a3a]">{"Cliente – Direito Cível"}</h4>
+                    <h4 className="text-xs font-semibold text-[#0d1a3a]">{"Cliente – Direito Civel"}</h4>
                     <p className="text-[9px] text-gray-500 font-light mt-0.5">{"Avaliação Verificada"}</p>
                   </div>
                 </div>
@@ -1229,7 +1226,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                 <div className="flex items-center gap-4 mt-8 pt-4 border-t border-gray-100">
                   <div className="w-9 h-9 rounded-full bg-royal-500/10 border border-royal-400/20 flex items-center justify-center text-royal-600 font-serif font-bold text-sm">{"A"}</div>
                   <div>
-                    <h4 className="text-xs font-semibold text-[#0d1a3a]">{"Cliente – Direito Administrativo"}</h4>
+                    <h4 className="text-xs font-semibold text-[#0d1a3a]">{"Cliente – Processo Ético Disciplinar"}</h4>
                     <p className="text-[9px] text-gray-500 font-light mt-0.5">{"Avaliação Verificada"}</p>
                   </div>
                 </div>
@@ -1399,11 +1396,11 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                       }}
                     >
                       <option value="" disabled className="text-silver-500 bg-[#08111f]">{"Selecione uma área"}</option>
-                      <option value="Direito Trabalhista" className="text-white bg-[#08111f]">{"Direito Trabalhista (Destaque)"}</option>
-                      <option value="Direito Cível" className="text-white bg-[#08111f]">{"Direito Cível (Contratos, Saúde, Indenizações)"}</option>
-                      <option value="Direito Administrativo" className="text-white bg-[#08111f]">{"Direito Administrativo (Profissionais da Saúde)"}</option>
-                      <option value="Consultivo Jurídico" className="text-white bg-[#08111f]">{"Consultivo Jurídico (Orientação Preventiva)"}</option>
-                      <option value="Outro" className="text-white bg-[#08111f]">{"Outro assunto"}</option>
+                      <option value="Direito Trabalhista" className="text-white bg-[#08111f]">{"Direito Trabalhista"}</option>
+                      <option value="Direito Civel" className="text-white bg-[#08111f]">{"Direito Civel"}</option>
+                      <option value="Processo Ético Disciplinar" className="text-white bg-[#08111f]">{"Processo Ético Disciplinar"}</option>
+                      <option value="Consultivo Jurídico" className="text-white bg-[#08111f]">{"Consultivo Jurídico"}</option>
+                      <option value="Outro" className="text-white bg-[#08111f]">{"Outro"}</option>
                     </select>
                   </div>
 
@@ -1467,10 +1464,17 @@ Descrição do caso: ${formState.description || "Não informada."}`;
               <p className="text-xs text-silver-400 leading-relaxed font-light max-w-sm">
                 Escritório comprometido com a excelência técnica, clareza processual e atuação estritamente ética na prevenção e defesa de seus direitos.
               </p>
+
+              {OFFICE_ADDRESS && (
+                <div className="flex items-start gap-2 text-xs text-silver-400 font-light max-w-sm pt-1">
+                  <MapPin size={14} className="text-royal-300 shrink-0 mt-0.5" />
+                  <span>{OFFICE_ADDRESS}</span>
+                </div>
+              )}
               
               <div className="pt-2">
                 <button
-                  onClick={() => handleSelectArea("Geral")}
+                  onClick={() => handleWhatsAppDirect("Olá! Vim pelo site da Trajano e Ferro Advogados e gostaria de entrar em contato.")}
                   className="flex items-center gap-2 px-4 py-2 rounded text-xs font-semibold text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all cursor-pointer"
                 >
                   <MessageSquare size={14} className="text-royal-300" />
@@ -1503,26 +1507,26 @@ Descrição do caso: ${formState.description || "Não informada."}`;
 
             {/* Col 3: Areas (4 cols) */}
             <div className="md:col-span-4 space-y-4 text-left">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-royal-400">{"\u00c1reas de Atendimento"}</h4>
+              <h4 className="text-xs font-bold uppercase tracking-wider text-royal-400">{"Áreas de Atendimento"}</h4>
               <ul className="space-y-2.5 text-xs text-silver-400 font-light">
                 <li>
-                  <button onClick={() => handleSelectArea("Direito Trabalhista")} className="hover:text-white text-left transition-colors cursor-pointer">
-                    {"Direito Trabalhista \u0028Destaque Empregados\u0029"}
+                  <button onClick={() => handleWhatsAppDirect("Olá! Vim pelo site da Trajano e Ferro Advogados e gostaria de falar com um especialista em Direito Trabalhista.")} className="hover:text-white text-left transition-colors cursor-pointer">
+                    {"Direito Trabalhista"}
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => handleSelectArea("Direito Cível")} className="hover:text-white text-left transition-colors cursor-pointer">
-                    {"Direito C\u00edvel \u0028Sa\u00fade e Contratos\u0029"}
+                  <button onClick={() => handleWhatsAppDirect("Olá! Vim pelo site da Trajano e Ferro Advogados e gostaria de falar com um especialista em Direito Civel.")} className="hover:text-white text-left transition-colors cursor-pointer">
+                    {"Direito Civel"}
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => handleSelectArea("Direito Administrativo")} className="hover:text-white text-left transition-colors cursor-pointer">
-                    {"Direito Administrativo \u0028Sa\u00fade e Pareceres\u0029"}
+                  <button onClick={() => handleWhatsAppDirect("Olá! Vim pelo site da Trajano e Ferro Advogados e gostaria de falar com um especialista em Processo Ético Disciplinar.")} className="hover:text-white text-left transition-colors cursor-pointer">
+                    {"Processo Ético Disciplinar"}
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => handleSelectArea("Consultivo Jurídico")} className="hover:text-white text-left transition-colors cursor-pointer">
-                    {"Consultivo Jur\u00eddico Preventivo"}
+                  <button onClick={() => handleWhatsAppDirect("Olá! Vim pelo site da Trajano e Ferro Advogados e gostaria de falar com um especialista em Consultivo Jurídico.")} className="hover:text-white text-left transition-colors cursor-pointer">
+                    {"Consultivo Jurídico"}
                   </button>
                 </li>
               </ul>
