@@ -537,7 +537,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                 alt="Escritório Trajano e Ferro Advogados"
                 fill
                 className="object-cover transition-transform duration-750 hover:scale-105"
-                sizes="(max-width: 1024px) 100vw, 50vw"
+                sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 1024px) calc(100vw - 48px), 580px"
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#060b16]/60 via-transparent to-transparent pointer-events-none" />
@@ -602,7 +602,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   alt="Dra. Cláudia Trajano"
                   fill
                   className="object-cover object-center transition-all duration-700 group-hover:scale-102 group-hover:opacity-0"
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  sizes="(max-width: 640px) calc(100vw - 32px), 260px"
                 />
                 {/* Image 2 (Hover) */}
                 <Image
@@ -610,7 +610,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   alt="Dra. Cláudia Trajano - Atuação"
                   fill
                   className="object-cover object-center absolute inset-0 opacity-0 transition-all duration-700 group-hover:scale-102 group-hover:opacity-100"
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  sizes="(max-width: 640px) calc(100vw - 32px), 260px"
                 />
                 {/* Subtle right accent border on image when in row layout */}
                 <div className="absolute top-0 right-0 h-full w-[3px] bg-royal-400 hidden sm:block opacity-80" />
@@ -660,7 +660,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   alt="Dr. Paulo Ferro"
                   fill
                   className="object-cover object-center transition-transform duration-700 group-hover:scale-102"
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  sizes="(max-width: 640px) calc(100vw - 32px), 260px"
                 />
                 {/* Subtle right accent border on image when in row layout */}
                 <div className="absolute top-0 right-0 h-full w-[3px] bg-royal-400 hidden sm:block opacity-80" />
