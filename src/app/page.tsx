@@ -18,7 +18,6 @@ import {
   ArrowRight,
   ChevronRight,
   FileText,
-  ExternalLink,
   Award
 } from "lucide-react";
 import {
@@ -1460,14 +1459,14 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                 Escritório comprometido com a excelência técnica, clareza processual e atuação estritamente ética na prevenção e defesa de seus direitos.
               </p>
 
-              {OFFICE_ADDRESS && (
-                <div className="flex items-start gap-2 text-xs text-silver-400 font-light max-w-sm pt-1">
-                  <MapPin size={14} className="text-royal-300 shrink-0 mt-0.5" />
-                  <span>{OFFICE_ADDRESS}</span>
-                </div>
-              )}
-              
-              <div className="pt-2">
+              <div className="space-y-4 pt-1">
+                {OFFICE_ADDRESS && (
+                  <div className="flex items-start gap-2 text-xs text-silver-400 font-light max-w-sm">
+                    <MapPin size={14} className="text-royal-300 shrink-0 mt-0.5" />
+                    <span className="leading-relaxed">{OFFICE_ADDRESS}</span>
+                  </div>
+                )}
+
                 <button
                   onClick={() => handleWhatsAppDirect("Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento jurídico.")}
                   className="flex items-center gap-2 px-4 py-2 rounded text-xs font-semibold text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all cursor-pointer"
@@ -1540,16 +1539,16 @@ Descrição do caso: ${formState.description || "Não informada."}`;
           {/* Bottom Copyright Bar */}
           <div className="mt-8 pt-4 flex flex-col items-center justify-center gap-2 text-[11px] text-silver-400 font-light text-center">
             <p>© 2026 Trajano e Ferro Advogados. Todos os direitos reservados.</p>
-            <p>
-              Desenvolvido por{" "}
+            <p className="leading-relaxed">
+              <span>Desenvolvido por</span>
+              {" "}
               <a
                 href="https://moralessolucoes.com.br/tecnologia"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-semibold text-silver-300 hover:text-royal-400 transition-colors inline-flex items-center gap-0.5"
+                className="font-semibold text-silver-300 hover:text-royal-400 transition-colors"
               >
                 Morales Soluções
-                <ExternalLink size={10} className="inline opacity-60" />
               </a>
             </p>
           </div>
