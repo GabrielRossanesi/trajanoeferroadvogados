@@ -358,7 +358,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
       <section
         id="inicio"
         ref={heroRef}
-        className="relative min-h-[92vh] flex items-center justify-center pt-24 pb-16 bg-[#060b16] text-[#f8fafc] overflow-hidden"
+        className="relative min-h-[100svh] lg:min-h-[92vh] flex items-start lg:items-center justify-center pt-24 sm:pt-28 lg:pt-24 pb-10 sm:pb-14 lg:pb-16 bg-[#060b16] text-[#f8fafc] overflow-hidden"
       >
         {/* Parallax Background Image with Dark Overlay */}
         <framerMotion.div 
@@ -370,6 +370,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
             alt="Fundo Escritório Jurídico"
             fill
             className="object-cover opacity-20"
+            sizes="100vw"
             priority
           />
         </framerMotion.div>
@@ -385,10 +386,10 @@ Descrição do caso: ${formState.description || "Não informada."}`;
             
             {/* Hero Left Content */}
             <framerMotion.div
-              initial={{ opacity: 0, x: -30 }}
+              initial={false}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="lg:col-span-7 text-left space-y-8"
+              transition={{ duration: 0.5 }}
+              className="lg:col-span-7 min-w-0 text-left space-y-6 sm:space-y-8"
             >
               <div
                 className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#17186a]/40 border border-[#17186a]/30 text-[10px] font-bold uppercase tracking-widest text-royal-300"
@@ -398,7 +399,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
               </div>
 
               <div className="space-y-4">
-                <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight leading-tight">
+                <h1 className="font-serif text-[2.05rem] sm:text-5xl md:text-6xl font-bold text-white tracking-tight leading-tight">
                   Advocacia estratégica para proteger seus direitos com{" "}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-silver-200 to-royal-300 underline decoration-royal-400/50 decoration-2 underline-offset-8">
                     segurança e excelência
@@ -432,10 +433,10 @@ Descrição do caso: ${formState.description || "Não informada."}`;
 
             {/* Hero Right Graphic - Replaced with Folder Mockup */}
             <framerMotion.div
-              initial={{ opacity: 0, x: 30 }}
+              initial={false}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="lg:col-span-5 flex justify-center lg:justify-end"
+              transition={{ duration: 0.6 }}
+              className="hidden lg:flex lg:col-span-5 justify-center lg:justify-end"
             >
               <div className="hero-image-frame relative w-full max-w-[420px] aspect-[4/5] md:aspect-auto md:h-[450px] overflow-hidden">
                 <Image
@@ -598,7 +599,6 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   className="object-cover object-center transition-all duration-700 group-hover:scale-102 group-hover:opacity-0"
                   sizes="(max-w-640px) 100vw, 25vw"
                   quality={100}
-                  priority
                 />
                 {/* Image 2 (Hover) */}
                 <Image
