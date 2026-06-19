@@ -239,6 +239,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   alt="Trajano e Ferro Advogados"
                   fill
                   className="object-contain object-left transition-transform duration-300 group-hover:scale-[1.01]"
+                  sizes="288px"
                   priority
                 />
               </div>
@@ -249,6 +250,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   alt="Trajano e Ferro"
                   fill
                   className="object-contain object-left"
+                  sizes="56px"
                   priority
                 />
               </div>
@@ -372,6 +374,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
             className="object-cover opacity-20"
             sizes="100vw"
             priority
+            fetchPriority="high"
           />
         </framerMotion.div>
 
@@ -444,6 +447,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   alt="Conceito Trajano e Ferro Advogados"
                   fill
                   className="z-0 object-cover transition-transform duration-750 hover:scale-105"
+                  sizes="420px"
                   loading="lazy"
                 />
                 <div className="absolute inset-0 z-[1] bg-gradient-to-t from-[#060b16]/60 via-transparent to-transparent pointer-events-none" />
@@ -533,6 +537,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                 alt="Escritório Trajano e Ferro Advogados"
                 fill
                 className="object-cover transition-transform duration-750 hover:scale-105"
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#060b16]/60 via-transparent to-transparent pointer-events-none" />
@@ -597,8 +602,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   alt="Dra. Cláudia Trajano"
                   fill
                   className="object-cover object-center transition-all duration-700 group-hover:scale-102 group-hover:opacity-0"
-                  sizes="(max-w-640px) 100vw, 25vw"
-                  quality={100}
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 {/* Image 2 (Hover) */}
                 <Image
@@ -606,8 +610,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   alt="Dra. Cláudia Trajano - Atuação"
                   fill
                   className="object-cover object-center absolute inset-0 opacity-0 transition-all duration-700 group-hover:scale-102 group-hover:opacity-100"
-                  sizes="(max-w-640px) 100vw, 25vw"
-                  quality={100}
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 {/* Subtle right accent border on image when in row layout */}
                 <div className="absolute top-0 right-0 h-full w-[3px] bg-royal-400 hidden sm:block opacity-80" />
@@ -657,8 +660,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   alt="Dr. Paulo Ferro"
                   fill
                   className="object-cover object-center transition-transform duration-700 group-hover:scale-102"
-                  sizes="(max-w-640px) 100vw, 25vw"
-                  quality={100}
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 {/* Subtle right accent border on image when in row layout */}
                 <div className="absolute top-0 right-0 h-full w-[3px] bg-royal-400 hidden sm:block opacity-80" />
@@ -1451,6 +1453,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                     alt="Logo TF Footer"
                     fill
                     className="object-contain object-left"
+                    sizes="320px"
                   />
                 </div>
               </a>
@@ -1531,7 +1534,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
           <div className="mt-16 flex items-center justify-center gap-4">
             <div className="flex-1 h-[1px] bg-white/5" />
             <div className="opacity-25 shrink-0 select-none pointer-events-none relative h-8 w-8">
-              <Image src={assetPath("/logo-mark-white.svg")} alt="TF Monograma" fill className="object-contain" />
+              <Image src={assetPath("/logo-mark-white.svg")} alt="TF Monograma" fill className="object-contain" sizes="32px" />
             </div>
             <div className="flex-1 h-[1px] bg-white/5" />
           </div>
