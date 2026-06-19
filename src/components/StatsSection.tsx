@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { motion as framerMotion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
 import { Users, HeartHandshake, Scale } from "lucide-react";
@@ -17,41 +17,6 @@ export const STATS_DATA: StatItem[] = [
   { kind: "icon", icon: Scale, label: "Áreas de Atuação" },
   { kind: "icon", icon: Users, label: "Advogados Especializados" }
 ];
-
-interface CountUpProps {
-  value: number;
-  duration?: number;
-}
-
-const CountUp: React.FC<CountUpProps> = ({ value, duration = 1.5 }) => {
-  const [count, setCount] = useState(0);
-  const [hasStarted, setHasStarted] = useState(false);
-
-  useEffect(() => {
-    if (!hasStarted) return;
-    let startTimestamp: number | null = null;
-    const step = (timestamp: number) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const progress = Math.min((timestamp - startTimestamp) / (duration * 1000), 1);
-      setCount(Math.floor(progress * value));
-      if (progress < 1) {
-        window.requestAnimationFrame(step);
-      }
-    };
-    window.requestAnimationFrame(step);
-  }, [value, duration, hasStarted]);
-
-  return (
-    <framerMotion.span
-      onViewportEnter={() => {
-        setHasStarted(true);
-      }}
-      viewport={{ once: true, margin: "-50px" }}
-    >
-      {count}
-    </framerMotion.span>
-  );
-};
 
 export default function StatsSection() {
   return (
@@ -71,7 +36,7 @@ export default function StatsSection() {
                 <div className="h-12 flex items-center justify-center mb-3">
                   {stat.kind === "number" ? (
                     <div className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-[#0d1a3a] tracking-tight">
-                      <CountUp value={stat.value} />
+                      <span>{stat.value}</span>
                       <span className="text-royal-600 font-sans">{stat.suffix}</span>
                     </div>
                   ) : (
