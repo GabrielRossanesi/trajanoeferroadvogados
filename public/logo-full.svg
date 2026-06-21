@@ -16,8 +16,8 @@
 
   <!-- Marca Nominativa à direita -->
   <g transform="translate(5, 5)">
-    <!-- TRAJANO & FERRO -->
-    <text x="215" y="36" font-family="var(--font-serif), 'Playfair Display', Georgia, serif" font-size="22" font-weight="500" letter-spacing="3" text-anchor="middle" fill="#0c1b33">TRAJANO &amp; FERRO</text>
+    <!-- TRAJANO E FERRO -->
+    <text x="215" y="36" font-family="var(--font-serif), 'Playfair Display', Georgia, serif" font-size="22" font-weight="500" letter-spacing="3" text-anchor="middle" fill="#0c1b33">TRAJANO E FERRO</text>
     
     <!-- Linha e Diamante Esquerdos -->
     <line x1="90" y1="56" x2="127" y2="56" stroke="#94a3b8" stroke-width="0.75" />
