@@ -1,16 +1,12 @@
-"use client";
-
-import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { motion as framerMotion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import StatsSection from "../components/StatsSection";
+import SiteHeader from "../components/SiteHeader";
+import ContactForm from "../components/ContactForm";
 import {
   Scale,
   Briefcase,
   Users,
   Clock,
-  Menu,
-  X,
   Phone,
   Mail,
   MapPin,
@@ -21,379 +17,67 @@ import {
   Award
 } from "lucide-react";
 import {
-  WHATSAPP_NUMBER,
   CONTACT_EMAIL,
   CONTACT_PHONE,
   OFFICE_ADDRESS,
   OFFICE_HOURS
 } from "../config/constants";
+import { assetPath, whatsAppHref } from "../lib/site";
 
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-const assetPath = (path: string) => `${basePath}${path}`;
-
-// Type definition for form state
-interface FormState {
-  name: string;
-  phone: string;
-  area: string;
-  description: string;
-}
-
-// Motion Animation Variants for Menu and Header
-const navContainerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.05,
-      delayChildren: 0.1
-    }
-  }
-} as const;
-
-const navItemVariants = {
-  hidden: { opacity: 0, y: -10 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } }
-} as const;
-
-const mobileContainerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.05
-    }
-  }
-} as const;
-
-const mobileItemVariants = {
-  hidden: { opacity: 0, x: -30 },
-  show: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 120, damping: 15 } }
-} as const;
+const whatsappMessages = {
+  general: "Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento jurídico.",
+  claudia: "Olá, Dra. Cláudia. Vim pelo site da Trajano e Ferro Advogados e gostaria de agendar uma consulta.",
+  paulo: "Olá, Dr. Paulo. Vim pelo site da Trajano e Ferro Advogados e gostaria de agendar uma consulta.",
+  trabalhista: "Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Direito Trabalhista.",
+  civil: "Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Direito Civel.",
+  etico: "Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Processo Ético Disciplinar.",
+  consultivo: "Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Consultivo Jurídico.",
+};
 
 export default function Home() {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"]
-  });
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-
-  // Mobile menu visibility
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  // Current active section for scroll tracking
-  const [activeSection, setActiveSection] = useState("inicio");
-
-  // Form inputs
-  const [formState, setFormState] = useState<FormState>({
-    name: "",
-    phone: "",
-    area: "",
-    description: "",
-  });
-
-  // Track scrolling to toggle header glassmorphism
-  const [scrolled, setScrolled] = useState(false);
-
-  // Scroll handler for transparent/opaque transition at 80px scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 80);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // IntersectionObserver to dynamically track active section during scroll
-  useEffect(() => {
-    const observerOptions = {
-      root: null,
-      rootMargin: "-30% 0px -45% 0px", // Detect section when it reaches the middle viewport area
-      threshold: 0.05,
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const targetSection = entry.target.id === "advogados" ? "escritorio" : entry.target.id;
-          setActiveSection(targetSection);
-        }
-      });
-    }, observerOptions);
-
-    const sections = ["inicio", "escritorio", "areas", "diferenciais", "contato", "advogados"];
-    sections.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  // Update form area when clicking a CTA
-  const handleSelectArea = (areaName: string) => {
-    let mappedArea = areaName;
-    if (areaName === "Geral") {
-      mappedArea = "";
-    }
-    
-    setFormState((prev) => ({ ...prev, area: mappedArea }));
-    const contactSection = document.getElementById("contato");
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  // Direct WhatsApp contact helper
-  const handleWhatsAppDirect = (messageText: string) => {
-    const encodedMessage = encodeURIComponent(messageText);
-    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-  };
-
-  // Form input change handlers
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormState((prev) => ({ ...prev, [name]: value }));
-  };
-
-  // Phone number mask formatting (BR style: (XX) XXXXX-XXXX)
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value.replace(/\D/g, "");
-    if (value.length > 11) value = value.slice(0, 11);
-    
-    // Formatting
-    if (value.length > 6) {
-      value = `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7)}`;
-    } else if (value.length > 2) {
-      value = `(${value.slice(0, 2)}) ${value.slice(2)}`;
-    } else if (value.length > 0) {
-      value = `(${value}`;
-    }
-    
-    setFormState((prev) => ({ ...prev, phone: value }));
-  };
-
-  // WhatsApp form submission
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Verify fields
-    if (!formState.name || !formState.phone || !formState.area) {
-      alert("Por favor, preencha os campos obrigatórios (Nome, Telefone e Área de Interesse).");
-      return;
-    }
-
-    // Compose message
-    const message = `Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento jurídico.
-
-Nome: ${formState.name}
-Telefone: ${formState.phone}
-Área de interesse: ${formState.area}
-Descrição do caso: ${formState.description || "Não informada."}`;
-
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-
-    // Open WhatsApp
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-  };
-
-  // Navigation items
-  const navItems = [
-    { id: "inicio", label: "Início" },
-    { id: "escritorio", label: "Escritório" },
-    { id: "areas", label: "Áreas de Atuação" },
-    { id: "diferenciais", label: "Diferenciais" },
-    { id: "contato", label: "Contato" },
-  ];
-
   return (
     <div className="relative min-h-screen font-sans bg-[#f8f7f2] selection:bg-brand-blue selection:text-white">
       {/* Background Decorative Radial Glows (only on dark areas like Hero, Footer, etc.) */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
         {/* Glow at top behind Hero */}
-        <div className="absolute top-0 left-[-10%] h-[600px] w-[600px] rounded-full bg-brand-blue/10 blur-[150px]" />
+        <div className="absolute top-0 left-[-10%] hidden h-[600px] w-[600px] rounded-full bg-brand-blue/10 blur-[150px] md:block" />
       </div>
 
-      {/* Floating Stable Header */}
-      <header
-        className={`fixed top-0 left-0 w-full h-20 md:h-[88px] z-50 transition-all duration-300 ${
-          scrolled
-            ? "bg-[#060b16]/92 shadow-lg shadow-black/20 backdrop-blur-md border-b border-white/[0.06]"
-            : "bg-transparent border-b border-transparent"
-        }`}
-      >
-        <div className="mx-auto max-w-7xl h-full px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-full">
-            {/* Logo container with controlled dimensions */}
-            <a href="#inicio" className="flex items-center h-full gap-2 group transition-transform duration-300">
-              {/* Desktop Logo */}
-              <div className="hidden md:block relative h-16 w-72">
-                <Image
-                  src={assetPath("/logo-full-white.svg")}
-                  alt="Trajano e Ferro Advogados"
-                  fill
-                  className="object-contain object-left transition-transform duration-300 group-hover:scale-[1.01]"
-                  sizes="288px"
-                  priority
-                />
-              </div>
-              {/* Mobile Logo */}
-              <div className="block md:hidden relative h-12 w-14">
-                <Image
-                  src={assetPath("/logo-mark-white.svg")}
-                  alt="Trajano e Ferro"
-                  fill
-                  className="object-contain object-left"
-                  sizes="56px"
-                  priority
-                />
-              </div>
-            </a>
+      <SiteHeader />
 
-            {/* Desktop Navigation Links (with entry animations) */}
-            <framerMotion.nav
-              variants={navContainerVariants}
-              initial="hidden"
-              animate="show"
-              className="hidden md:flex items-center gap-8"
-            >
-              {navItems.map((item) => (
-                <framerMotion.a
-                  variants={navItemVariants}
-                  key={item.id}
-                  href={`#${item.id}`}
-                  className={`text-sm font-semibold tracking-wide transition-all duration-200 hover:text-white relative py-1 group ${
-                    activeSection === item.id ? "text-white" : "text-silver-300"
-                  }`}
-                >
-                  {item.label}
-                  {/* Underline expansion on hover & active */}
-                  <span className={`absolute bottom-0 left-0 h-[2px] bg-royal-400 transition-all duration-300 ${
-                    activeSection === item.id ? "w-full" : "w-0 group-hover:w-full"
-                  }`} />
-                </framerMotion.a>
-              ))}
-            </framerMotion.nav>
-
-            {/* Header Call to Action Button */}
-            <div className="hidden md:flex items-center">
-              <button
-                onClick={() => handleSelectArea("Geral")}
-                className="relative inline-flex items-center justify-center px-6 py-2.5 overflow-hidden text-xs font-bold uppercase tracking-wider text-white transition-all duration-300 rounded bg-[#17186a] hover:bg-blue-800 hover:shadow-lg hover:shadow-brand-blue/20 active:scale-95 border border-white/10 cursor-pointer"
-              >
-                Fale com um advogado
-              </button>
-            </div>
-
-            {/* Hamburger Button for Mobile */}
-            <div className="flex md:hidden">
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="text-silver-200 hover:text-white focus:outline-none p-2 rounded-lg border border-white/10 bg-navy-950/40 backdrop-blur-sm"
-                aria-label="Toggle Menu"
-              >
-                {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Navigation Drawer */}
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <framerMotion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.25, ease: "easeInOut" }}
-              className="md:hidden border-b border-white/10 bg-[#060b16]/95 backdrop-blur-lg overflow-hidden shadow-2xl"
-            >
-              <framerMotion.div 
-                variants={mobileContainerVariants}
-                initial="hidden"
-                animate="show"
-                className="px-4 pt-2 pb-6 space-y-1.5"
-              >
-                {navItems.map((item) => (
-                  <framerMotion.div
-                    key={item.id}
-                    variants={mobileItemVariants}
-                  >
-                    <a
-                      href={`#${item.id}`}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className={`block px-4 py-2.5 rounded text-sm font-medium tracking-wide transition-all ${
-                        activeSection === item.id
-                          ? "bg-[#17186a]/30 text-white border-l-4 border-royal-400"
-                          : "text-silver-300 hover:bg-white/5 hover:text-white"
-                      }`}
-                    >
-                      {item.label}
-                    </a>
-                  </framerMotion.div>
-                ))}
-                <div className="pt-3 px-4">
-                  <button
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      handleSelectArea("Geral");
-                    }}
-                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded text-sm font-semibold text-white bg-[#17186a] border border-white/10 shadow-lg shadow-brand-blue/25 cursor-pointer"
-                  >
-                    <MessageSquare size={16} />
-                    Fale com um advogado
-                  </button>
-                </div>
-              </framerMotion.div>
-            </framerMotion.div>
-          )}
-        </AnimatePresence>
-      </header>
 
       {/* Hero Section (Dark Navy Background) */}
       <section
-        id="inicio"
-        ref={heroRef}
+        id="inicio"
         className="relative min-h-[100svh] lg:min-h-[92vh] flex items-start lg:items-center justify-center pt-24 sm:pt-28 lg:pt-24 pb-10 sm:pb-14 lg:pb-16 bg-[#060b16] text-[#f8fafc] overflow-hidden"
       >
-        {/* Parallax Background Image with Dark Overlay */}
-        <framerMotion.div 
-          style={{ y: backgroundY }}
-          className="absolute inset-0 z-0 pointer-events-none"
-        >
-          <Image
-            src={assetPath("/hero-bg.webp")}
-            alt="Fundo Escritório Jurídico"
-            fill
-            className="object-cover opacity-20"
-            sizes="100vw"
-            priority
-            fetchPriority="high"
-          />
-        </framerMotion.div>
+        {/* Hero Background Image with Dark Overlay */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <picture>
+            <source media="(max-width: 767px)" srcSet={assetPath("/hero-bg-mobile.webp")} />
+            <Image
+              src={assetPath("/hero-bg.webp")}
+              alt="Fundo de escritorio juridico"
+              fill
+              className="object-cover opacity-20"
+              sizes="100vw"
+              loading="eager"
+              fetchPriority="high"
+            />
+          </picture>
+        </div>
 
         {/* Diagonal lines texture overlay */}
         <div className="absolute inset-0 opacity-[0.03] z-0 pointer-events-none diagonal-lines" />
 
         {/* Glow behind Hero Right */}
-        <div className="absolute right-0 top-0 bottom-0 w-1/2 bg-[#17186a]/15 blur-[120px] pointer-events-none z-0" />
+        <div className="absolute right-0 top-0 bottom-0 hidden w-1/2 bg-[#17186a]/15 blur-[120px] pointer-events-none z-0 md:block" />
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full z-10 relative">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             {/* Hero Left Content */}
-            <framerMotion.div
-              initial={false}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              className="lg:col-span-7 min-w-0 text-left space-y-6 sm:space-y-8"
-            >
+            <div className="lg:col-span-7 min-w-0 text-left space-y-6 sm:space-y-8">
               <div
                 className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#17186a]/40 border border-[#17186a]/30 text-[10px] font-bold uppercase tracking-widest text-royal-300"
               >
@@ -416,14 +100,11 @@ Descrição do caso: ${formState.description || "Não informada."}`;
 
               {/* CTAs */}
               <div className="flex flex-col sm:flex-row gap-4 pt-2">
-                <button
-                  onClick={() => handleSelectArea("Geral")}
-                  className="flex items-center justify-center gap-3 px-8 py-3.5 rounded text-sm font-semibold text-white bg-[#17186a] hover:bg-blue-800 hover:shadow-xl hover:shadow-brand-blue/20 transition-all duration-300 border border-white/10 group cursor-pointer"
-                >
+                <a href={whatsAppHref(whatsappMessages.general)} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3 px-8 py-3.5 rounded text-sm font-semibold text-white bg-[#17186a] hover:bg-blue-800 hover:shadow-xl hover:shadow-brand-blue/20 transition-all duration-300 border border-white/10 group cursor-pointer">
                   <MessageSquare size={16} className="text-royal-300" />
                   <span>Falar pelo WhatsApp</span>
                   <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                </button>
+                </a>
 
                 <a
                   href="#areas"
@@ -432,15 +113,10 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   <span>Conhecer áreas de atuação</span>
                 </a>
               </div>
-            </framerMotion.div>
+            </div>
 
             {/* Hero Right Graphic - Replaced with Folder Mockup */}
-            <framerMotion.div
-              initial={false}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="hidden lg:flex lg:col-span-5 justify-center lg:justify-end"
-            >
+            <div className="hidden lg:flex lg:col-span-5 justify-center lg:justify-end">
               <div className="hero-image-frame relative w-full max-w-[420px] aspect-[4/5] md:aspect-auto md:h-[450px] overflow-hidden">
                 <Image
                   src={assetPath("/hero-mockup.webp")}
@@ -449,10 +125,11 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   className="z-0 object-cover transition-transform duration-750 hover:scale-105"
                   sizes="420px"
                   loading="lazy"
+                  fetchPriority="low"
                 />
                 <div className="absolute inset-0 z-[1] bg-gradient-to-t from-[#060b16]/60 via-transparent to-transparent pointer-events-none" />
               </div>
-            </framerMotion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -477,7 +154,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
       {/* About Section (Dark Navy Background, 2-Column layout) */}
       <section
         id="escritorio"
-        className="relative py-16 md:py-20 lg:py-24 bg-[#08111f] text-silver-300 overflow-hidden border-b border-white/5"
+        className="defer-section relative py-16 md:py-20 lg:py-24 bg-[#08111f] text-silver-300 overflow-hidden border-b border-white/5"
       >
         {/* Diagonal lines texture overlay */}
         <div className="absolute inset-0 opacity-[0.015] pointer-events-none diagonal-lines" />
@@ -491,13 +168,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             {/* Left Column: Titles & Narrative */}
-            <framerMotion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8 }}
-              className="lg:col-span-6 space-y-6 text-left p-8 sm:p-10 bg-[#060b16]/40 backdrop-blur-sm rounded double-border-frame-dark shadow-xl"
-            >
+            <div className="lg:col-span-6 space-y-6 text-left p-8 sm:p-10 bg-[#060b16]/40 md:backdrop-blur-sm rounded double-border-frame-dark shadow-xl">
               <div className="space-y-2">
                 <span className="text-xs font-bold tracking-[0.25em] text-royal-300 uppercase block">O Escritório</span>
                 <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white tracking-tight">
@@ -522,16 +193,10 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   <ChevronRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
                 </a>
               </div>
-            </framerMotion.div>
+            </div>
 
             {/* Right Column: Professional Office Image */}
-            <framerMotion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="lg:col-span-6 relative h-[450px] w-full rounded overflow-hidden double-border-frame-dark shadow-2xl bg-[#060b16]/40"
-            >
+            <div className="lg:col-span-6 relative h-[450px] w-full rounded overflow-hidden double-border-frame-dark shadow-2xl bg-[#060b16]/40">
               <Image
                 src={assetPath("/about-office.webp")}
                 alt="Escritório Trajano e Ferro Advogados"
@@ -539,9 +204,10 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                 className="object-cover transition-transform duration-750 hover:scale-105"
                 sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 1024px) calc(100vw - 48px), 580px"
                 loading="lazy"
+                fetchPriority="low"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#060b16]/60 via-transparent to-transparent pointer-events-none" />
-            </framerMotion.div>
+            </div>
 
           </div>
         </div>
@@ -557,20 +223,14 @@ Descrição do caso: ${formState.description || "Não informada."}`;
       {/* Lawyers Section (Off-White Background) */}
       <section
         id="advogados"
-        className="relative py-16 md:py-20 lg:py-24 bg-[#f8f7f2] text-[#374151] overflow-hidden border-b border-gray-200/20"
+        className="defer-section relative py-16 md:py-20 lg:py-24 bg-[#f8f7f2] text-[#374151] overflow-hidden border-b border-gray-200/20"
       >
         {/* Subtle diagonal lines texture overlay */}
         <div className="absolute inset-0 opacity-[0.01] pointer-events-none diagonal-lines" />
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
           
-          <framerMotion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto space-y-4 mb-16"
-          >
+          <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
             <span className="text-xs font-bold tracking-[0.25em] text-royal-600 uppercase block">Sócios Fundadores</span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0d1a3a] tracking-tight">
               Corpo Jurídico
@@ -581,19 +241,13 @@ Descrição do caso: ${formState.description || "Não informada."}`;
             <div className="classic-divider">
               <span className="classic-divider-diamond" />
             </div>
-          </framerMotion.div>
+          </div>
 
           {/* Grid containing the 2 lawyers */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto px-4">
             
             {/* Card 1: Cláudia */}
-            <framerMotion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="group flex flex-col sm:flex-row bg-white rounded border border-gray-200 shadow-md hover:-translate-y-1.5 hover:shadow-lg transition-all duration-300 overflow-hidden max-w-2xl lg:max-w-none mx-auto w-full"
-            >
+            <div className="group flex flex-col sm:flex-row bg-white rounded border border-gray-200 shadow-md hover:-translate-y-1.5 hover:shadow-lg transition-all duration-300 overflow-hidden max-w-2xl lg:max-w-none mx-auto w-full">
               {/* Image Container with cross-fade hover */}
               <div className="relative w-full sm:w-[38%] aspect-[3/4] sm:aspect-auto sm:self-stretch overflow-hidden bg-gray-50 shrink-0">
                 {/* Image 1 (Main) */}
@@ -603,6 +257,8 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   fill
                   className="object-cover object-center transition-all duration-700 group-hover:scale-102 group-hover:opacity-0"
                   sizes="(max-width: 640px) calc(100vw - 32px), 260px"
+                  loading="lazy"
+                  fetchPriority="low"
                 />
                 {/* Image 2 (Hover) */}
                 <Image
@@ -611,6 +267,8 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   fill
                   className="object-cover object-center absolute inset-0 opacity-0 transition-all duration-700 group-hover:scale-102 group-hover:opacity-100"
                   sizes="(max-width: 640px) calc(100vw - 32px), 260px"
+                  loading="lazy"
+                  fetchPriority="low"
                 />
                 {/* Subtle right accent border on image when in row layout */}
                 <div className="absolute top-0 right-0 h-full w-[3px] bg-royal-400 hidden sm:block opacity-80" />
@@ -634,25 +292,16 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                 </div>
 
                 <div className="pt-4 border-t border-gray-100">
-                  <button
-                    onClick={() => handleWhatsAppDirect("Olá, Dra. Cláudia. Vim pelo site da Trajano e Ferro Advogados e gostaria de agendar uma consulta.")}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded text-xs font-semibold text-white bg-[#17186a] hover:bg-blue-800 transition-all cursor-pointer active:scale-98"
-                  >
+                  <a href={whatsAppHref(whatsappMessages.claudia)} target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded text-xs font-semibold text-white bg-[#17186a] hover:bg-blue-800 transition-all cursor-pointer active:scale-98">
                     <MessageSquare size={13} />
                     <span>Falar com a Dra. Cláudia</span>
-                  </button>
+                  </a>
                 </div>
               </div>
-            </framerMotion.div>
+            </div>
 
             {/* Card 2: Paulo */}
-            <framerMotion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="group flex flex-col sm:flex-row bg-white rounded border border-gray-200 shadow-md hover:-translate-y-1.5 hover:shadow-lg transition-all duration-300 overflow-hidden max-w-2xl lg:max-w-none mx-auto w-full"
-            >
+            <div className="group flex flex-col sm:flex-row bg-white rounded border border-gray-200 shadow-md hover:-translate-y-1.5 hover:shadow-lg transition-all duration-300 overflow-hidden max-w-2xl lg:max-w-none mx-auto w-full">
               {/* Image Container */}
               <div className="relative w-full sm:w-[38%] aspect-[3/4] sm:aspect-auto sm:self-stretch overflow-hidden bg-gray-50 shrink-0">
                 <Image
@@ -661,6 +310,8 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   fill
                   className="object-cover object-center transition-transform duration-700 group-hover:scale-102"
                   sizes="(max-width: 640px) calc(100vw - 32px), 260px"
+                  loading="lazy"
+                  fetchPriority="low"
                 />
                 {/* Subtle right accent border on image when in row layout */}
                 <div className="absolute top-0 right-0 h-full w-[3px] bg-royal-400 hidden sm:block opacity-80" />
@@ -684,16 +335,13 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                 </div>
 
                 <div className="pt-4 border-t border-gray-100">
-                  <button
-                    onClick={() => handleWhatsAppDirect("Olá, Dr. Paulo. Vim pelo site da Trajano e Ferro Advogados e gostaria de agendar uma consulta.")}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded text-xs font-semibold text-white bg-[#17186a] hover:bg-blue-800 transition-all cursor-pointer active:scale-98"
-                  >
+                  <a href={whatsAppHref(whatsappMessages.paulo)} target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded text-xs font-semibold text-white bg-[#17186a] hover:bg-blue-800 transition-all cursor-pointer active:scale-98">
                     <MessageSquare size={13} />
                     <span>Falar com o Dr. Paulo</span>
-                  </button>
+                  </a>
                 </div>
               </div>
-            </framerMotion.div>
+            </div>
 
           </div>
         </div>
@@ -709,20 +357,14 @@ Descrição do caso: ${formState.description || "Não informada."}`;
       {/* Practice Areas Section (Off-White Background) */}
       <section
         id="areas"
-        className="relative py-16 md:py-20 lg:py-24 bg-[#f8f7f2] text-[#374151] overflow-hidden border-b border-gray-200/30"
+        className="defer-section relative py-16 md:py-20 lg:py-24 bg-[#f8f7f2] text-[#374151] overflow-hidden border-b border-gray-200/30"
       >
         {/* Diagonal lines texture overlay */}
         <div className="absolute inset-0 opacity-[0.01] pointer-events-none diagonal-lines" />
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
           
-          <framerMotion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto space-y-4 mb-12"
-          >
+          <div className="text-center max-w-3xl mx-auto space-y-4 mb-12">
             <span className="text-xs font-bold tracking-[0.25em] text-royal-600 uppercase block">{"Áreas de Atendimento"}</span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0d1a3a] tracking-tight">
               Soluções Jurídicas Sob Medida
@@ -735,18 +377,12 @@ Descrição do caso: ${formState.description || "Não informada."}`;
             <div className="classic-divider">
               <span className="classic-divider-diamond" />
             </div>
-          </framerMotion.div>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch">
             
             {/* 1. DIREITO TRABALHISTA - STRATEGIC SECTOR ACCENTED */}
-            <framerMotion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="md:col-span-12 lg:col-span-6 flex"
-            >
+            <div className="md:col-span-12 lg:col-span-6 flex">
               <div className="relative w-full overflow-hidden flex flex-col justify-between p-8 group rounded border border-royal-400/30 bg-white shadow-md hover:-translate-y-1.5 hover:shadow-xl hover:shadow-brand-blue/5 transition-all duration-300">
                 {/* Accent line top */}
                 <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-royal-500 to-royal-300" />
@@ -790,25 +426,16 @@ Descrição do caso: ${formState.description || "Não informada."}`;
 
                 <div className="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center">
                   <span className="text-[11px] text-[#4b5563] font-light italic">Foco em consolidar seus direitos laborais</span>
-                  <button
-                    onClick={() => handleWhatsAppDirect("Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Direito Trabalhista.")}
-                    className="flex items-center gap-1 text-xs font-bold text-royal-600 hover:text-royal-700 transition-colors cursor-pointer"
-                  >
+                  <a href={whatsAppHref(whatsappMessages.trabalhista)} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs font-bold text-royal-600 hover:text-royal-700 transition-colors cursor-pointer">
                     <span>Consultar esta área</span>
                     <ArrowRight size={14} />
-                  </button>
+                  </a>
                 </div>
               </div>
-            </framerMotion.div>
+            </div>
 
             {/* 2. DIREITO CIVEL */}
-            <framerMotion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="md:col-span-6 lg:col-span-6 flex"
-            >
+            <div className="md:col-span-6 lg:col-span-6 flex">
               <div className="w-full overflow-hidden flex flex-col justify-between p-8 group rounded border border-gray-200 bg-white shadow-md hover:-translate-y-1.5 hover:border-royal-400/35 hover:shadow-xl hover:shadow-brand-blue/5 transition-all duration-300">
                 <div className="space-y-5 text-left">
                   <div className="w-11 h-11 rounded bg-royal-50/50 border border-royal-100 flex items-center justify-center shadow-sm">
@@ -826,25 +453,16 @@ Descrição do caso: ${formState.description || "Não informada."}`;
 
                 <div className="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center">
                   <span className="text-xs text-[#4b5563] font-light">Planos de saúde e indenizações</span>
-                  <button
-                    onClick={() => handleWhatsAppDirect("Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Direito Civel.")}
-                    className="flex items-center gap-1 text-xs font-bold text-royal-600 hover:text-royal-700 transition-colors cursor-pointer"
-                  >
+                  <a href={whatsAppHref(whatsappMessages.civil)} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs font-bold text-royal-600 hover:text-royal-700 transition-colors cursor-pointer">
                     <span>Consultar</span>
                     <ChevronRight size={14} />
-                  </button>
+                  </a>
                 </div>
               </div>
-            </framerMotion.div>
+            </div>
 
             {/* 3. PROCESSO ÉTICO DISCIPLINAR */}
-            <framerMotion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="md:col-span-6 lg:col-span-6 flex"
-            >
+            <div className="md:col-span-6 lg:col-span-6 flex">
               <div className="w-full overflow-hidden flex flex-col justify-between p-8 group rounded border border-gray-200 bg-white shadow-md hover:-translate-y-1.5 hover:border-royal-400/35 hover:shadow-xl hover:shadow-brand-blue/5 transition-all duration-300">
                 <div className="space-y-5 text-left">
                   <div className="w-11 h-11 rounded bg-royal-50/50 border border-royal-100 flex items-center justify-center shadow-sm">
@@ -862,25 +480,16 @@ Descrição do caso: ${formState.description || "Não informada."}`;
 
                 <div className="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center">
                   <span className="text-xs text-[#4b5563] font-light">Pareceres e acompanhamento estratégico</span>
-                  <button
-                    onClick={() => handleWhatsAppDirect("Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Processo Ético Disciplinar.")}
-                    className="flex items-center gap-1 text-xs font-bold text-royal-600 hover:text-royal-700 transition-colors cursor-pointer"
-                  >
+                  <a href={whatsAppHref(whatsappMessages.etico)} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs font-bold text-royal-600 hover:text-royal-700 transition-colors cursor-pointer">
                     <span>Consultar</span>
                     <ChevronRight size={14} />
-                  </button>
+                  </a>
                 </div>
               </div>
-            </framerMotion.div>
+            </div>
 
             {/* 4. CONSULTIVO JURÍDICO */}
-            <framerMotion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="md:col-span-6 lg:col-span-6 flex"
-            >
+            <div className="md:col-span-6 lg:col-span-6 flex">
               <div className="w-full overflow-hidden flex flex-col justify-between p-8 group rounded border border-gray-200 bg-white shadow-md hover:-translate-y-1.5 hover:border-royal-400/35 hover:shadow-xl hover:shadow-brand-blue/5 transition-all duration-300">
                 <div className="space-y-5 text-left">
                   <div className="w-11 h-11 rounded bg-royal-50/50 border border-royal-100 flex items-center justify-center shadow-sm">
@@ -898,25 +507,22 @@ Descrição do caso: ${formState.description || "Não informada."}`;
 
                 <div className="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center">
                   <span className="text-xs text-[#4b5563] font-light">Redução técnica de riscos e contratos</span>
-                  <button
-                    onClick={() => handleWhatsAppDirect("Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Consultivo Jurídico.")}
-                    className="flex items-center gap-1 text-xs font-bold text-royal-600 hover:text-royal-700 transition-colors cursor-pointer"
-                  >
+                  <a href={whatsAppHref(whatsappMessages.consultivo)} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs font-bold text-royal-600 hover:text-royal-700 transition-colors cursor-pointer">
                     <span>Consultar</span>
                     <ChevronRight size={14} />
-                  </button>
+                  </a>
                 </div>
               </div>
-            </framerMotion.div>
+            </div>
 
           </div>
         </div>
       </section>
 
       {/* Strategic Labor Highlight Banner (Dark Navy Impact Block) */}
-      <section className="relative py-20 bg-[#060b16] text-white border-y border-white/5 overflow-hidden">
+      <section className="defer-section relative py-20 bg-[#060b16] text-white border-y border-white/5 overflow-hidden">
         {/* Glowing navy accents */}
-        <div className="absolute right-[-10%] top-0 bottom-0 w-1/3 bg-[#17186a]/20 blur-[130px] pointer-events-none" />
+        <div className="absolute right-[-10%] top-0 bottom-0 hidden w-1/3 bg-[#17186a]/20 blur-[130px] pointer-events-none md:block" />
 
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 relative text-center space-y-8 z-10">
           <div className="max-w-3xl mx-auto space-y-4">
@@ -929,13 +535,10 @@ Descrição do caso: ${formState.description || "Não informada."}`;
           </div>
 
           <div className="pt-2 flex justify-center">
-            <button
-              onClick={() => handleWhatsAppDirect("Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Direito Trabalhista.")}
-              className="flex items-center gap-3 px-8 py-3.5 rounded text-sm font-semibold text-white bg-[#17186a] hover:bg-blue-800 transition-all duration-300 shadow-xl shadow-brand-blue/20 cursor-pointer border border-white/10 hover:border-white/20 active:scale-95"
-            >
+            <a href={whatsAppHref(whatsappMessages.trabalhista)} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 px-8 py-3.5 rounded text-sm font-semibold text-white bg-[#17186a] hover:bg-blue-800 transition-all duration-300 shadow-xl shadow-brand-blue/20 cursor-pointer border border-white/10 hover:border-white/20 active:scale-95">
               <MessageSquare size={16} />
               <span>Conversar com o escritório</span>
-            </button>
+            </a>
           </div>
 
           <p className="text-[11px] text-silver-400 max-w-xl mx-auto italic font-light leading-relaxed">
@@ -954,7 +557,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
       {/* Differentials Section (Dark Navy Background) */}
       <section
         id="diferenciais"
-        className="relative py-16 md:py-20 lg:py-24 bg-[#0b172a] text-silver-300 overflow-hidden border-b border-white/5"
+        className="defer-section relative py-16 md:py-20 lg:py-24 bg-[#0b172a] text-silver-300 overflow-hidden border-b border-white/5"
       >
         {/* Diagonal lines texture overlay */}
         <div className="absolute inset-0 opacity-[0.015] pointer-events-none diagonal-lines" />
@@ -964,13 +567,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             {/* Left Differential text description */}
-            <framerMotion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8 }}
-              className="lg:col-span-4 space-y-6 text-left"
-            >
+            <div className="lg:col-span-4 space-y-6 text-left">
               <div className="space-y-2">
                 <span className="text-xs font-bold tracking-[0.25em] text-royal-300 uppercase block">Diferenciais</span>
                 <h2 className="font-serif text-3xl font-bold text-white tracking-tight leading-tight">
@@ -984,16 +581,10 @@ Descrição do caso: ${formState.description || "Não informada."}`;
               <div className="classic-divider-dark !mx-0">
                 <span className="classic-divider-dark-diamond" />
               </div>
-            </framerMotion.div>
+            </div>
 
             {/* Right Differential list - Cardless Editorial Layout */}
-            <framerMotion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-10"
-            >
+            <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-10">
               
               {/* Item 1 */}
               <div className="flex items-start gap-4 text-left border-b border-white/5 pb-6">
@@ -1050,7 +641,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                 </div>
               </div>
 
-            </framerMotion.div>
+            </div>
 
           </div>
         </div>
@@ -1066,19 +657,13 @@ Descrição do caso: ${formState.description || "Não informada."}`;
       {/* Testimonials Section (Off-White Background) */}
       <section
         id="depoimentos"
-        className="relative py-16 md:py-20 lg:py-24 bg-[#f8f7f2] text-[#374151] overflow-hidden border-b border-gray-200/30"
+        className="defer-section relative py-16 md:py-20 lg:py-24 bg-[#f8f7f2] text-[#374151] overflow-hidden border-b border-gray-200/30"
       >
         <div className="absolute inset-0 opacity-[0.012] pointer-events-none diagonal-lines" />
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
           
-          <framerMotion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto space-y-4 mb-16"
-          >
+          <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
             <span className="text-xs font-bold tracking-[0.25em] text-royal-600 uppercase block">Depoimentos</span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0d1a3a] tracking-tight">
               A Opinião dos Nossos Clientes
@@ -1089,18 +674,12 @@ Descrição do caso: ${formState.description || "Não informada."}`;
             <div className="classic-divider">
               <span className="classic-divider-diamond" />
             </div>
-          </framerMotion.div>
+          </div>
 
           {/* Desktop/Tablet Testimonials Grid */}
           <div className="hidden md:grid grid-cols-3 gap-8">
             {/* Card 1 */}
-            <framerMotion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-              className="p-8 rounded border border-gray-200 bg-white shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between text-left relative"
-            >
+            <div className="p-8 rounded border border-gray-200 bg-white shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between text-left relative">
               <div className="space-y-4">
                 <div className="flex text-amber-500 gap-1">
                   {"★★★★★"}
@@ -1118,16 +697,10 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   <p className="text-[10px] text-gray-500 font-light mt-0.5">{"Avaliação Verificada"}</p>
                 </div>
               </div>
-            </framerMotion.div>
+            </div>
 
             {/* Card 2 */}
-            <framerMotion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="p-8 rounded border border-gray-200 bg-white shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between text-left relative"
-            >
+            <div className="p-8 rounded border border-gray-200 bg-white shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between text-left relative">
               <div className="space-y-4">
                 <div className="flex text-amber-500 gap-1">
                   {"★★★★★"}
@@ -1145,16 +718,10 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   <p className="text-[10px] text-gray-500 font-light mt-0.5">{"Avaliação Verificada"}</p>
                 </div>
               </div>
-            </framerMotion.div>
+            </div>
 
             {/* Card 3 */}
-            <framerMotion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.45 }}
-              className="p-8 rounded border border-gray-200 bg-white shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between text-left relative"
-            >
+            <div className="p-8 rounded border border-gray-200 bg-white shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between text-left relative">
               <div className="space-y-4">
                 <div className="flex text-amber-500 gap-1">
                   {"★★★★★"}
@@ -1172,7 +739,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   <p className="text-[10px] text-gray-500 font-light mt-0.5">{"Avaliação Verificada"}</p>
                 </div>
               </div>
-            </framerMotion.div>
+            </div>
           </div>
 
           {/* Mobile Testimonials Snap Carousel */}
@@ -1252,7 +819,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
       {/* Contact Section & Form (Dark Navy Background) */}
       <section
         id="contato"
-        className="relative py-16 md:py-20 lg:py-24 bg-[#060b16] text-[#f8fafc] overflow-hidden"
+        className="defer-section relative py-16 md:py-20 lg:py-24 bg-[#060b16] text-[#f8fafc] overflow-hidden"
       >
         {/* Diagonal lines texture overlay */}
         <div className="absolute inset-0 opacity-[0.01] pointer-events-none diagonal-lines" />
@@ -1261,13 +828,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
             
             {/* Form Details Column in Navy Box (5 cols) */}
-            <framerMotion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8 }}
-              className="lg:col-span-5 rounded bg-[#08111f] text-white p-8 flex flex-col justify-between border border-white/5 shadow-xl text-left double-border-frame-dark"
-            >
+            <div className="lg:col-span-5 rounded bg-[#08111f] text-white p-8 flex flex-col justify-between border border-white/5 shadow-xl text-left double-border-frame-dark">
               <div className="space-y-6">
                 <span className="text-xs font-bold tracking-[0.25em] text-royal-300 uppercase block">Atendimento</span>
                 <h2 className="font-serif text-2xl sm:text-3xl font-bold text-white tracking-tight leading-snug">
@@ -1326,120 +887,20 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   * Atendimento digital estruturado em todo o território nacional. Atendimento físico sob consulta e agendamento prévio.
                 </div>
               </div>
-            </framerMotion.div>
+            </div>
 
             {/* Right Column: Form Card (Dark Glassmorphic version) */}
-            <framerMotion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="lg:col-span-7 bg-[#08111f]/60 backdrop-blur-sm p-8 sm:p-10 rounded border border-white/5 shadow-xl double-border-frame-dark text-left"
-            >
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  
-                  {/* Name field */}
-                  <div className="flex flex-col space-y-1.5 text-left">
-                    <label htmlFor="name" className="text-xs font-bold text-silver-300">
-                      Nome Completo <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      required
-                      value={formState.name}
-                      onChange={handleInputChange}
-                      placeholder="Seu nome completo"
-                      className="w-full text-sm px-4 py-2.5 rounded bg-navy-950/40 border border-white/10 focus:outline-none focus:border-royal-400 focus:ring-1 focus:ring-royal-400/20 transition-all text-white placeholder-silver-500 font-light"
-                    />
-                  </div>
-
-                  {/* Phone field */}
-                  <div className="flex flex-col space-y-1.5 text-left">
-                    <label htmlFor="phone" className="text-xs font-bold text-silver-300">
-                      WhatsApp / Telefone <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      required
-                      value={formState.phone}
-                      onChange={handlePhoneChange}
-                      placeholder="(DD) 99999-9999"
-                      className="w-full text-sm px-4 py-2.5 rounded bg-navy-950/40 border border-white/10 focus:outline-none focus:border-royal-400 focus:ring-1 focus:ring-royal-400/20 transition-all text-white placeholder-silver-500 font-light"
-                    />
-                  </div>
-
-                  {/* Area field */}
-                  <div className="flex flex-col space-y-1.5 text-left sm:col-span-2">
-                    <label htmlFor="area" className="text-xs font-bold text-silver-300">
-                      {"Área de Interesse"} <span className="text-red-500">*</span>
-                    </label>
-                    <select
-                      id="area"
-                      name="area"
-                      required
-                      value={formState.area}
-                      onChange={handleInputChange}
-                      className="w-full text-sm px-4 py-2.5 rounded bg-navy-950/40 border border-white/10 focus:outline-none focus:border-royal-400 focus:ring-1 focus:ring-royal-400/20 transition-all text-white font-light appearance-none"
-                      style={{
-                        backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239ca3af'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3e%3c/svg%3e")`,
-                        backgroundPosition: `right 16px center`,
-                        backgroundSize: `16px 16px`,
-                        backgroundRepeat: `no-repeat`
-                      }}
-                    >
-                      <option value="" disabled className="text-silver-500 bg-[#08111f]">{"Selecione uma área"}</option>
-                      <option value="Direito Trabalhista" className="text-white bg-[#08111f]">{"Direito Trabalhista"}</option>
-                      <option value="Direito Civel" className="text-white bg-[#08111f]">{"Direito Civel"}</option>
-                      <option value="Processo Ético Disciplinar" className="text-white bg-[#08111f]">{"Processo Ético Disciplinar"}</option>
-                      <option value="Consultivo Jurídico" className="text-white bg-[#08111f]">{"Consultivo Jurídico"}</option>
-                    </select>
-                  </div>
-
-                  {/* Case description field */}
-                  <div className="flex flex-col space-y-1.5 text-left sm:col-span-2">
-                    <label htmlFor="description" className="text-xs font-bold text-silver-300">
-                      {"Resumo do Caso (Opcional)"}
-                    </label>
-                    <textarea
-                      id="description"
-                      name="description"
-                      rows={4}
-                      value={formState.description}
-                      onChange={handleInputChange}
-                      placeholder="Descreva de forma breve sua situação para agilizarmos sua triagem..."
-                      className="w-full text-sm px-4 py-2.5 rounded bg-navy-950/40 border border-white/10 focus:outline-none focus:border-royal-400 focus:ring-1 focus:ring-royal-400/20 transition-all text-white placeholder-silver-500 font-light resize-none"
-                    />
-                  </div>
-
-                </div>
-
-                <div className="pt-2">
-                  <button
-                    type="submit"
-                    className="w-full flex items-center justify-center gap-3 px-8 py-3.5 rounded text-sm font-semibold text-white bg-[#17186a] hover:bg-blue-800 hover:shadow-xl hover:shadow-brand-blue/20 transition-all duration-300 border border-white/10 hover:border-royal-400 cursor-pointer active:scale-[0.98]"
-                  >
-                    <MessageSquare size={16} />
-                    <span>Enviar e Iniciar Atendimento</span>
-                  </button>
-                  <p className="text-[10px] text-silver-400 text-center mt-3 font-light">
-                    * Ao clicar, uma janela do WhatsApp se abrirá para falar diretamente com nosso escritório.
-                  </p>
-                </div>
-              </form>
-            </framerMotion.div>
+            <div className="lg:col-span-7 bg-[#08111f]/60 md:backdrop-blur-sm p-8 sm:p-10 rounded border border-white/5 shadow-xl double-border-frame-dark text-left">
+              <ContactForm />
+            </div>
 
           </div>
         </div>
       </section>
 
-      <footer className="relative bg-[#060b16] border-t border-white/5 py-20 text-[#f8fafc]">
+      <footer className="defer-section relative bg-[#060b16] border-t border-white/5 py-20 text-[#f8fafc]">
         {/* Glow behind Footer */}
-        <div className="absolute left-[-10%] bottom-0 h-[300px] w-[300px] rounded-full bg-brand-blue/5 blur-[100px] pointer-events-none" />
+        <div className="absolute left-[-10%] bottom-0 hidden h-[300px] w-[300px] rounded-full bg-brand-blue/5 blur-[100px] pointer-events-none md:block" />
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
           
@@ -1470,13 +931,10 @@ Descrição do caso: ${formState.description || "Não informada."}`;
                   </div>
                 )}
 
-                <button
-                  onClick={() => handleWhatsAppDirect("Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento jurídico.")}
-                  className="flex items-center gap-2 px-4 py-2 rounded text-xs font-semibold text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all cursor-pointer"
-                >
+                <a href={whatsAppHref(whatsappMessages.general)} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded text-xs font-semibold text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all cursor-pointer">
                   <MessageSquare size={14} className="text-royal-300" />
                   <span>WhatsApp do Escritório</span>
-                </button>
+                </a>
               </div>
             </div>
 
@@ -1507,24 +965,24 @@ Descrição do caso: ${formState.description || "Não informada."}`;
               <h4 className="text-xs font-bold uppercase tracking-wider text-royal-400">{"Áreas de Atendimento"}</h4>
               <ul className="space-y-2.5 text-xs text-silver-400 font-light">
                 <li>
-                  <button onClick={() => handleWhatsAppDirect("Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Direito Trabalhista.")} className="hover:text-white text-left transition-colors cursor-pointer">
+                  <a href={whatsAppHref(whatsappMessages.trabalhista)} target="_blank" rel="noopener noreferrer" className="hover:text-white text-left transition-colors cursor-pointer">
                     {"Direito Trabalhista"}
-                  </button>
+                  </a>
                 </li>
                 <li>
-                  <button onClick={() => handleWhatsAppDirect("Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Direito Civel.")} className="hover:text-white text-left transition-colors cursor-pointer">
+                  <a href={whatsAppHref(whatsappMessages.civil)} target="_blank" rel="noopener noreferrer" className="hover:text-white text-left transition-colors cursor-pointer">
                     {"Direito Civel"}
-                  </button>
+                  </a>
                 </li>
                 <li>
-                  <button onClick={() => handleWhatsAppDirect("Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Processo Ético Disciplinar.")} className="hover:text-white text-left transition-colors cursor-pointer">
+                  <a href={whatsAppHref(whatsappMessages.etico)} target="_blank" rel="noopener noreferrer" className="hover:text-white text-left transition-colors cursor-pointer">
                     {"Processo Ético Disciplinar"}
-                  </button>
+                  </a>
                 </li>
                 <li>
-                  <button onClick={() => handleWhatsAppDirect("Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Consultivo Jurídico.")} className="hover:text-white text-left transition-colors cursor-pointer">
+                  <a href={whatsAppHref(whatsappMessages.consultivo)} target="_blank" rel="noopener noreferrer" className="hover:text-white text-left transition-colors cursor-pointer">
                     {"Consultivo Jurídico"}
-                  </button>
+                  </a>
                 </li>
               </ul>
             </div>

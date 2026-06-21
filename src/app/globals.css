@@ -54,6 +54,11 @@ body {
   overflow-x: hidden;
 }
 
+.defer-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
 /* Custom Utilities for Premium Look */
 .glass-panel {
   background: rgba(6, 11, 22, 0.85);
@@ -359,4 +364,3 @@ body {
 .diagonal-lines {
   background-image: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.012) 0px, rgba(255, 255, 255, 0.012) 1px, transparent 1px, transparent 12px);
 }
-
