@@ -30,7 +30,7 @@ const whatsappMessages = {
   paulo: "Olá, Dr. Paulo. Vim pelo site da Trajano e Ferro Advogados e gostaria de agendar uma consulta.",
   trabalhista: "Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Direito Trabalhista.",
   civil: "Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Direito Civil.",
-  etico: "Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Processo Ético Disciplinar.",
+  etico: "Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Processo Ético-Disciplinar.",
   consultivo: "Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Consultivo Jurídico.",
 };
 
@@ -95,7 +95,7 @@ export default function Home() {
                 </h1>
 
                 <p className="text-lg sm:text-xl text-silver-300 max-w-2xl font-light leading-relaxed">
-                  Atuação jurídica consultiva e contenciosa nas áreas trabalhista, civil e processo ético disciplinar, com atendimento personalizado e foco em soluções eficientes.
+                  Atuação jurídica consultiva e contenciosa nas áreas trabalhista, civil e processo ético-disciplinar, com atendimento personalizado e foco em soluções eficientes.
                 </p>
               </div>
 
@@ -288,7 +288,7 @@ export default function Home() {
                     </p>
                   </div>
                   <p className="text-xs lg:text-sm text-[#374151] font-light leading-relaxed">
-                    Mestra em Direito, professora de graduação e pós-graduação, especialista em Direito Civil e Processo Ético Disciplinar. Possui sólida experiência em disputas contratuais, planos de saúde, responsabilidade civil, pareceres de conformidade para profissionais da saúde e atuação em mediação judicial e extrajudicial.
+                    Mestra em Direito, professora de graduação e pós-graduação, especialista em Direito Civil e Processo Ético-Disciplinar. Possui sólida experiência em disputas contratuais, planos de saúde, responsabilidade civil, pareceres de conformidade para profissionais da saúde e atuação em mediação judicial e extrajudicial.
                   </p>
                 </div>
 
@@ -462,7 +462,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* 3. PROCESSO ÉTICO DISCIPLINAR */}
+            {/* 3. PROCESSO ÉTICO-DISCIPLINAR */}
             <div className="md:col-span-6 lg:col-span-6 flex">
               <div className="w-full overflow-hidden flex flex-col justify-between p-8 group rounded border border-gray-200 bg-white shadow-md hover:-translate-y-1.5 hover:border-royal-400/35 hover:shadow-xl hover:shadow-brand-blue/5 transition-all duration-300">
                 <div className="space-y-5 text-left">
@@ -471,7 +471,7 @@ export default function Home() {
                   </div>
                   
                   <h3 className="font-serif text-xl font-bold text-[#0d1a3a] tracking-wide">
-                    Processo Ético Disciplinar
+                    Processo Ético-Disciplinar
                   </h3>
                   
                   <p className="text-sm text-[#374151] leading-relaxed font-light">
@@ -637,7 +637,7 @@ export default function Home() {
                 <div className="space-y-1">
                   <h3 className="text-sm font-bold text-white tracking-wide">Experiência especializada</h3>
                   <p className="text-xs text-silver-400 font-light leading-relaxed">
-                    Foco qualificado nas esferas Trabalhista, Civil, Processo Ético Disciplinar e Consultivo Jurídico, com atuação técnica, personalizada e estratégica para cada demanda.
+                    Foco qualificado nas esferas Trabalhista, Civil, Processo Ético-Disciplinar e Consultivo Jurídico, com atuação técnica, personalizada e estratégica para cada demanda.
                   </p>
                 </div>
               </div>
@@ -736,7 +736,7 @@ export default function Home() {
                   {"A"}
                 </div>
                 <div>
-                  <h4 className="text-xs font-semibold text-[#0d1a3a]">{"Cliente – Processo Ético Disciplinar"}</h4>
+                  <h4 className="text-xs font-semibold text-[#0d1a3a]">{"Cliente – Processo Ético-Disciplinar"}</h4>
                   <p className="text-[10px] text-gray-500 font-light mt-0.5">{"Avaliação Verificada"}</p>
                 </div>
               </div>
@@ -791,7 +791,7 @@ export default function Home() {
                 <div className="flex items-center gap-4 mt-8 pt-4 border-t border-gray-100">
                   <div className="w-9 h-9 rounded-full bg-royal-500/10 border border-royal-400/20 flex items-center justify-center text-royal-600 font-serif font-bold text-sm">{"A"}</div>
                   <div>
-                    <h4 className="text-xs font-semibold text-[#0d1a3a]">{"Cliente – Processo Ético Disciplinar"}</h4>
+                    <h4 className="text-xs font-semibold text-[#0d1a3a]">{"Cliente – Processo Ético-Disciplinar"}</h4>
                     <p className="text-[9px] text-gray-500 font-light mt-0.5">{"Avaliação Verificada"}</p>
                   </div>
                 </div>
@@ -977,7 +977,7 @@ export default function Home() {
                 </li>
                 <li>
                   <a href={whatsAppHref(whatsappMessages.etico)} target="_blank" rel="noopener noreferrer" className="hover:text-white text-left transition-colors cursor-pointer">
-                    {"Processo Ético Disciplinar"}
+                    {"Processo Ético-Disciplinar"}
                   </a>
                 </li>
                 <li>
