@@ -288,7 +288,7 @@ export default function Home() {
                     </p>
                   </div>
                   <p className="text-xs lg:text-sm text-[#374151] font-light leading-relaxed">
-                    Mestra em Direito, professora de graduação e pós-graduação, especialista em direito civil e processo ético-disciplinar. Possui sólida experiência em disputas contratuais, planos de saúde, responsabilidade civil, pareceres de conformidade para profissionais da saúde e atuação em mediação judicial e extrajudicial.
+                    Mestra em Direito, professora de graduação e pós-graduação, especialista em Direito Civil e processo ético-disciplinar. Possui sólida experiência em disputas contratuais, planos de saúde, responsabilidade civil, pareceres de conformidade para profissionais da saúde e atuação em mediação judicial e extrajudicial.
                   </p>
                 </div>
 
