@@ -29,7 +29,7 @@ const whatsappMessages = {
   claudia: "Olá, Dra. Cláudia. Vim pelo site da Trajano e Ferro Advogados e gostaria de agendar uma consulta.",
   paulo: "Olá, Dr. Paulo. Vim pelo site da Trajano e Ferro Advogados e gostaria de agendar uma consulta.",
   trabalhista: "Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Direito Trabalhista.",
-  civil: "Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Direito Civel.",
+  civil: "Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Direito Civil.",
   etico: "Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Processo Ético Disciplinar.",
   consultivo: "Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Consultivo Jurídico.",
 };
@@ -48,7 +48,8 @@ export default function Home() {
 
       {/* Hero Section (Dark Navy Background) */}
       <section
-        id="inicio"
+        id="inicio"
+
         className="relative min-h-[100svh] lg:min-h-[92vh] flex items-start lg:items-center justify-center pt-24 sm:pt-28 lg:pt-24 pb-10 sm:pb-14 lg:pb-16 bg-[#060b16] text-[#f8fafc] overflow-hidden"
       >
         {/* Hero Background Image with Dark Overlay */}
@@ -94,7 +95,7 @@ export default function Home() {
                 </h1>
 
                 <p className="text-lg sm:text-xl text-silver-300 max-w-2xl font-light leading-relaxed">
-                  Atuação jurídica consultiva e contenciosa nas áreas trabalhista, civel e processo ético disciplinar, com atendimento personalizado e foco em soluções eficientes.
+                  Atuação jurídica consultiva e contenciosa nas áreas trabalhista, civil e processo ético disciplinar, com atendimento personalizado e foco em soluções eficientes.
                 </p>
               </div>
 
@@ -172,16 +173,16 @@ export default function Home() {
               <div className="space-y-2">
                 <span className="text-xs font-bold tracking-[0.25em] text-royal-300 uppercase block">O Escritório</span>
                 <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white tracking-tight">
-                  {"Sobre o Trajano e Ferro Advogados"}
+                  {"Sobre Trajano e Ferro Advogados"}
                 </h2>
               </div>
 
               <p className="text-base sm:text-lg text-silver-200 font-light leading-relaxed">
-                O Trajano e Ferro Advogados atua com compromisso técnico, ética e proximidade no atendimento. O escritório oferece soluções jurídicas voltadas à prevenção, defesa e orientação de seus clientes, sempre com análise cuidadosa de cada caso e comunicação clara durante todo o processo.
+                Trajano e Ferro Advogados atua com compromisso técnico, ética e proximidade no atendimento. O escritório oferece soluções jurídicas voltadas à prevenção, defesa e orientação de seus clientes, sempre com análise cuidadosa de cada caso e comunicação clara durante todo o processo.
               </p>
 
               <p className="text-sm text-silver-400 font-light leading-relaxed">
-                Nossa filosofia de atuação está fundamentada na transparência e no respeito às normas éticas, prestando uma assessoria focada nas reais possibilidades legais de cada demanda. Buscamos sempre mitigar riscos e estruturar defesas técnicas consistentes no judiciário e perante conselhos de classe.
+                Nossa filosofia de atuação está fundamentada na transparência e no respeito às normas éticas, prestando uma assessoria focada nas reais possibilidades legais de cada demanda. Buscamos sempre mitigar riscos e estruturar defesas técnicas consistentes no Poder Judiciário e perante conselhos de classe.
               </p>
 
               <div className="pt-2">
@@ -287,7 +288,7 @@ export default function Home() {
                     </p>
                   </div>
                   <p className="text-xs lg:text-sm text-[#374151] font-light leading-relaxed">
-                    Especialista em Direito Civel e Processo Ético Disciplinar, com sólida experiência em disputas contratuais, planos de saúde, responsabilidade civil e pareceres de conformidade para profissionais da saúde.
+                    Mestra em Direito, professora de graduação e pós-graduação, especialista em Direito Civil e Processo Ético Disciplinar. Possui sólida experiência em disputas contratuais, planos de saúde, responsabilidade civil, pareceres de conformidade para profissionais da saúde e atuação em mediação judicial e extrajudicial.
                   </p>
                 </div>
 
@@ -330,7 +331,7 @@ export default function Home() {
                     </p>
                   </div>
                   <p className="text-xs lg:text-sm text-[#374151] font-light leading-relaxed">
-                    Especialista em Direito Trabalhista com mais de 10 anos de atuação estratégica na defesa de trabalhadores e assessoria preventiva. Comprometido com a transparência processual e a obtenção de soluções justas.
+                    Professor e especialista em Direito Trabalhista, com mais de 10 anos de atuação estratégica na defesa de trabalhadores e assessoria preventiva. Comprometido com a transparência processual e a obtenção de soluções justas.
                   </p>
                 </div>
 
@@ -434,7 +435,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* 2. DIREITO CIVEL */}
+            {/* 2. DIREITO CIVIL */}
             <div className="md:col-span-6 lg:col-span-6 flex">
               <div className="w-full overflow-hidden flex flex-col justify-between p-8 group rounded border border-gray-200 bg-white shadow-md hover:-translate-y-1.5 hover:border-royal-400/35 hover:shadow-xl hover:shadow-brand-blue/5 transition-all duration-300">
                 <div className="space-y-5 text-left">
@@ -443,7 +444,7 @@ export default function Home() {
                   </div>
                   
                   <h3 className="font-serif text-xl font-bold text-[#0d1a3a] tracking-wide">
-                    Direito Civel
+                    Direito Civil
                   </h3>
                   
                   <p className="text-sm text-[#374151] leading-relaxed font-light">
@@ -636,7 +637,7 @@ export default function Home() {
                 <div className="space-y-1">
                   <h3 className="text-sm font-bold text-white tracking-wide">Experiência especializada</h3>
                   <p className="text-xs text-silver-400 font-light leading-relaxed">
-                    Foco qualificado nas esferas Trabalhista, Civel, Processo Ético Disciplinar e Consultivo Jurídico, com atuação técnica, personalizada e estratégica para cada demanda.
+                    Foco qualificado nas esferas Trabalhista, Civil, Processo Ético Disciplinar e Consultivo Jurídico, com atuação técnica, personalizada e estratégica para cada demanda.
                   </p>
                 </div>
               </div>
@@ -706,7 +707,7 @@ export default function Home() {
                   {"★★★★★"}
                 </div>
                 <p className="text-xs sm:text-sm text-[#374151] leading-relaxed italic">
-                  {"Excelente assessoria na revisão contratual e na condução de uma disputa civel complexa. A comunicação clara e a análise rigorosa dos riscos nos deram total segurança e tranquilidade."}
+                  {"Excelente assessoria na revisão contratual e na condução de uma disputa civil complexa. A comunicação clara e a análise rigorosa dos riscos nos deram total segurança e tranquilidade."}
                 </p>
               </div>
               <div className="flex items-center gap-4 mt-8 pt-4 border-t border-gray-100">
@@ -714,7 +715,7 @@ export default function Home() {
                   {"C"}
                 </div>
                 <div>
-                  <h4 className="text-xs font-semibold text-[#0d1a3a]">{"Cliente – Direito Civel"}</h4>
+                  <h4 className="text-xs font-semibold text-[#0d1a3a]">{"Cliente – Direito Civil"}</h4>
                   <p className="text-[10px] text-gray-500 font-light mt-0.5">{"Avaliação Verificada"}</p>
                 </div>
               </div>
@@ -767,13 +768,13 @@ export default function Home() {
                 <div className="space-y-4">
                   <div className="flex text-amber-500 gap-1">{"★★★★★"}</div>
                   <p className="text-xs text-[#374151] leading-relaxed italic">
-                    {"Excelente assessoria na revisão contratual e na condução de uma disputa civel complexa. A comunicação clara e a análise rigorosa dos riscos nos deram total segurança e tranquilidade."}
+                    {"Excelente assessoria na revisão contratual e na condução de uma disputa civil complexa. A comunicação clara e a análise rigorosa dos riscos nos deram total segurança e tranquilidade."}
                   </p>
                 </div>
                 <div className="flex items-center gap-4 mt-8 pt-4 border-t border-gray-100">
                   <div className="w-9 h-9 rounded-full bg-royal-500/10 border border-royal-400/20 flex items-center justify-center text-royal-600 font-serif font-bold text-sm">{"C"}</div>
                   <div>
-                    <h4 className="text-xs font-semibold text-[#0d1a3a]">{"Cliente – Direito Civel"}</h4>
+                    <h4 className="text-xs font-semibold text-[#0d1a3a]">{"Cliente – Direito Civil"}</h4>
                     <p className="text-[9px] text-gray-500 font-light mt-0.5">{"Avaliação Verificada"}</p>
                   </div>
                 </div>
@@ -971,7 +972,7 @@ export default function Home() {
                 </li>
                 <li>
                   <a href={whatsAppHref(whatsappMessages.civil)} target="_blank" rel="noopener noreferrer" className="hover:text-white text-left transition-colors cursor-pointer">
-                    {"Direito Civel"}
+                    {"Direito Civil"}
                   </a>
                 </li>
                 <li>

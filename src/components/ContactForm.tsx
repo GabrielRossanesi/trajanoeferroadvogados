@@ -118,8 +118,8 @@ Descrição do caso: ${formState.description || "Não informada."}`;
             <option value="Direito Trabalhista" className="text-white bg-[#08111f]">
               Direito Trabalhista
             </option>
-            <option value="Direito Civel" className="text-white bg-[#08111f]">
-              Direito Civel
+            <option value="Direito Civil" className="text-white bg-[#08111f]">
+              Direito Civil
             </option>
             <option value="Processo Ético Disciplinar" className="text-white bg-[#08111f]">
               Processo Ético Disciplinar
