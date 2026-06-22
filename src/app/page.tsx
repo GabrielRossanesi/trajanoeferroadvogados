@@ -528,10 +528,10 @@ export default function Home() {
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 relative text-center space-y-8 z-10">
           <div className="max-w-3xl mx-auto space-y-4">
             <h2 className="font-serif text-2xl sm:text-3xl font-bold text-white tracking-tight leading-snug">
-              Você precisa de orientação sobre seus direitos trabalhistas?
+              Você precisa de orientação jurídica especializada?
             </h2>
             <p className="text-sm sm:text-base text-silver-300 leading-relaxed font-light">
-              Se você tem dúvidas sobre verbas rescisórias, horas extras, vínculo empregatício, demissão, assédio, condições de trabalho ou outros direitos, a Trajano e Ferro Advogados pode analisar o seu caso com atenção e indicar os caminhos jurídicos adequados.
+              Se você tem dúvidas sobre questões trabalhistas, contratos, planos de saúde, responsabilidade civil, processo ético-disciplinar ou precisa de orientação preventiva, o escritório Trajano e Ferro Advogados pode analisar o seu caso com atenção e indicar os caminhos jurídicos adequados.
             </p>
           </div>
 
