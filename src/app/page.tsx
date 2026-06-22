@@ -89,7 +89,7 @@ export default function Home() {
               <div className="space-y-4">
                 <h1 className="font-serif text-[2.05rem] sm:text-5xl md:text-6xl font-bold text-white tracking-tight leading-tight">
                   Advocacia estratégica para proteger seus direitos com{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-silver-200 to-royal-300 underline decoration-royal-400/50 decoration-2 underline-offset-8">
+                  <span className="text-royal-300 md:text-transparent md:bg-clip-text md:bg-gradient-to-r md:from-white md:via-silver-200 md:to-royal-300 underline decoration-royal-400/50 decoration-2 underline-offset-8">
                     segurança e excelência
                   </span>
                 </h1>
