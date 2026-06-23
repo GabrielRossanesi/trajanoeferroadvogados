@@ -4,7 +4,7 @@
 
 // Número do WhatsApp no formato internacional (DDI + DDD + Número) sem espaços ou traços.
 // Exemplo: "5511999999999" (Código do Brasil 55 + DDD 11 + número)
-export const WHATSAPP_NUMBER = "5511999999999";
+export const WHATSAPP_NUMBER = "5511939401076";
 
 // Informações institucionais.
 // Se as informações físicas ou de e-mail não estiverem disponíveis, deixe-as como string vazia ("")
