@@ -11,6 +11,21 @@ interface FormState {
   description: string;
 }
 
+const ALLOWED_AREAS = [
+  "Direito Trabalhista",
+  "Direito Civil",
+  "Processo Ético-Disciplinar",
+  "Consultivo Jurídico"
+];
+
+function sanitizeInput(value: string, maxLength: number) {
+  return value
+    .replace(/<[^>]*>?/gm, "") // Remove HTML tags
+    .replace(/\s+/g, " ")       // Normalize spaces
+    .trim()
+    .slice(0, maxLength);
+}
+
 export default function ContactForm() {
   const [formState, setFormState] = useState<FormState>({
     name: "",
@@ -44,17 +59,22 @@ export default function ContactForm() {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    if (!formState.name || !formState.phone || !formState.area) {
-      alert("Por favor, preencha os campos obrigatórios (Nome, Telefone e Área de Interesse).");
+    const sanitizedName = sanitizeInput(formState.name, 80);
+    const sanitizedPhone = formState.phone.replace(/[^\d\s()+-]/g, "").trim().slice(0, 20);
+    const sanitizedArea = ALLOWED_AREAS.includes(formState.area) ? formState.area : "Não informado";
+    const sanitizedDescription = sanitizeInput(formState.description, 1000);
+
+    if (!sanitizedName || !sanitizedPhone || sanitizedArea === "Não informado") {
+      alert("Por favor, preencha os campos obrigatórios com dados válidos (Nome, Telefone e Área de Interesse).");
       return;
     }
 
     const message = `Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento jurídico.
 
-Nome: ${formState.name}
-Telefone: ${formState.phone}
-Área de interesse: ${formState.area}
-Descrição do caso: ${formState.description || "Não informada."}`;
+Nome: ${sanitizedName}
+Telefone: ${sanitizedPhone}
+Área de interesse: ${sanitizedArea}
+Descrição do caso: ${sanitizedDescription || "Não informada."}`;
 
     window.open(whatsAppHref(message), "_blank", "noopener,noreferrer");
   };
@@ -71,6 +91,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
             id="name"
             name="name"
             required
+            maxLength={80}
             value={formState.name}
             onChange={handleInputChange}
             placeholder="Seu nome completo"
@@ -87,6 +108,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
             id="phone"
             name="phone"
             required
+            maxLength={20}
             value={formState.phone}
             onChange={handlePhoneChange}
             placeholder="(DD) 99999-9999"
@@ -138,6 +160,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
             id="description"
             name="description"
             rows={4}
+            maxLength={1000}
             value={formState.description}
             onChange={handleInputChange}
             placeholder="Descreva de forma breve sua situação para agilizarmos sua triagem..."
@@ -155,7 +178,7 @@ Descrição do caso: ${formState.description || "Não informada."}`;
           <span>Enviar e Iniciar Atendimento</span>
         </button>
         <p className="text-[10px] text-silver-400 text-center mt-3 font-light">
-          * Ao clicar, uma janela do WhatsApp se abrirá para falar diretamente com nosso escritório.
+          * Ao clicar, uma janela do WhatsApp se abrirá para falar diretamente com nosso escritório. As informações preenchidas serão enviadas diretamente pelo seu WhatsApp. Não armazenamos esses dados em servidores.
         </p>
       </div>
     </form>
