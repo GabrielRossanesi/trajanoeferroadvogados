@@ -61,11 +61,11 @@ export default function ContactForm() {
 
     const sanitizedName = sanitizeInput(formState.name, 80);
     const sanitizedPhone = formState.phone.replace(/[^\d\s()+-]/g, "").trim().slice(0, 20);
-    const sanitizedArea = ALLOWED_AREAS.includes(formState.area) ? formState.area : "Não informado";
+    const isAreaValid = ALLOWED_AREAS.includes(formState.area);
     const sanitizedDescription = sanitizeInput(formState.description, 1000);
 
-    if (!sanitizedName || !sanitizedPhone || sanitizedArea === "Não informado") {
-      alert("Por favor, preencha os campos obrigatórios com dados válidos (Nome, Telefone e Área de Interesse).");
+    if (!sanitizedName || !sanitizedPhone || !isAreaValid) {
+      alert("Por favor, preencha os campos obrigatórios com dados válidos (Nome, Telefone e uma Área de Interesse válida).");
       return;
     }
 
@@ -73,7 +73,7 @@ export default function ContactForm() {
 
 Nome: ${sanitizedName}
 Telefone: ${sanitizedPhone}
-Área de interesse: ${sanitizedArea}
+Área de interesse: ${formState.area}
 Descrição do caso: ${sanitizedDescription || "Não informada."}`;
 
     window.open(whatsAppHref(message), "_blank", "noopener,noreferrer");
