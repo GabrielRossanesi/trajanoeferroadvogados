@@ -25,13 +25,13 @@ import {
 import { assetPath, whatsAppHref } from "../lib/site";
 
 const whatsappMessages = {
-  general: "Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento jurídico.",
-  claudia: "Olá, Dra. Cláudia. Vim pelo site da Trajano e Ferro Advogados e gostaria de agendar uma consulta.",
-  paulo: "Olá, Dr. Paulo. Vim pelo site da Trajano e Ferro Advogados e gostaria de agendar uma consulta.",
-  trabalhista: "Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Direito Trabalhista.",
-  civil: "Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Direito Civil.",
-  etico: "Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Processo Ético-Disciplinar.",
-  consultivo: "Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento na área de Consultivo Jurídico.",
+  general: "Olá, vim pelo site do escritório Trajano e Ferro Advogados e gostaria de atendimento jurídico.",
+  claudia: "Olá, Dra. Cláudia. Vim pelo site do escritório Trajano e Ferro Advogados e gostaria de agendar uma consulta.",
+  paulo: "Olá, Dr. Paulo. Vim pelo site do escritório Trajano e Ferro Advogados e gostaria de agendar uma consulta.",
+  trabalhista: "Olá, vim pelo site do escritório Trajano e Ferro Advogados e gostaria de atendimento na área de Direito Trabalhista.",
+  civil: "Olá, vim pelo site do escritório Trajano e Ferro Advogados e gostaria de atendimento na área de Direito Civil.",
+  etico: "Olá, vim pelo site do escritório Trajano e Ferro Advogados e gostaria de atendimento na área de Processo Ético-Disciplinar.",
+  consultivo: "Olá, vim pelo site do escritório Trajano e Ferro Advogados e gostaria de atendimento na área de Consultivo Jurídico.",
 };
 
 export default function Home() {
@@ -521,7 +521,7 @@ export default function Home() {
       </section>
 
       {/* Strategic Labor Highlight Banner (Dark Navy Impact Block) */}
-      <section className="defer-section relative py-20 bg-[#060b16] text-white border-y border-white/5 overflow-hidden">
+      <section className="defer-section relative pt-20 pb-16 bg-[#060b16] text-white border-y border-white/5 overflow-hidden">
         {/* Glowing navy accents */}
         <div className="absolute right-[-10%] top-0 bottom-0 hidden w-1/3 bg-[#17186a]/20 blur-[130px] pointer-events-none md:block" />
 
@@ -541,10 +541,6 @@ export default function Home() {
               <span>Conversar com o escritório</span>
             </a>
           </div>
-
-          <p className="text-[11px] text-silver-400 max-w-xl mx-auto italic font-light leading-relaxed">
-            Aviso de Ética Jurídica: Nossa assessoria baseia-se em análise rigorosa das leis vigentes. Não fazemos promessas ou garantias de resultados financeiros ou processuais.
-          </p>
         </div>
       </section>
 
@@ -572,7 +568,7 @@ export default function Home() {
               <div className="space-y-2">
                 <span className="text-xs font-bold tracking-[0.25em] text-royal-300 uppercase block">Diferenciais</span>
                 <h2 className="font-serif text-3xl font-bold text-white tracking-tight leading-tight">
-                  {"Por que escolher a Trajano e Ferro?"}
+                  {"Por que escolher o escritório Trajano e Ferro?"}
                 </h2>
               </div>
               <p className="text-sm text-silver-300 font-light leading-relaxed">

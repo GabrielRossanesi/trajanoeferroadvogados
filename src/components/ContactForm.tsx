@@ -69,7 +69,7 @@ export default function ContactForm() {
       return;
     }
 
-    const message = `Olá, vim pelo site da Trajano e Ferro Advogados e gostaria de atendimento jurídico.
+    const message = `Olá, vim pelo site do escritório Trajano e Ferro Advogados e gostaria de atendimento jurídico.
 
 Nome: ${sanitizedName}
 Telefone: ${sanitizedPhone}
